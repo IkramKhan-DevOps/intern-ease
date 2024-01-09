@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load custom_tags %}
 
 {% load i18n %}
 {% load crispy_forms_tags %}
@@ -34,7 +35,7 @@
                             <a href="/">
                                 <div class="avatar-md profile-user-wid mb-4">
                                             <span class="avatar-title rounded-circle bg-light">
-                                                <img src="{% static 'core/images/logo_100.png' %}"
+                                                <img src="{{ app.logo|image_or_placeholder }}"
                                                      alt="" class="rounded-circle" height="45">
                                             </span>
                                 </div>
