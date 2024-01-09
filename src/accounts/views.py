@@ -14,9 +14,6 @@ class CrossAuthView(View):
         if not request.user.is_completed:
             return redirect('accounts:identification-check')
 
-        if request.user.is_superuser:
-            return redirect('/admin/')
-
         if request.user.is_company:
             return redirect('company:dashboard')
         else:

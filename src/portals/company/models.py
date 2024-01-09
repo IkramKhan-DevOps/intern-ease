@@ -16,8 +16,8 @@ class Company(models.Model):
     description = models.TextField(null=True, blank=True)
     business_type = models.CharField(max_length=255, choices=TYPE_CHOICE, default='per')
 
-    company_registration_no=models.CharField(max_length=255, null=True, blank=True)
-    company_start_date = models.DateTimeField(verbose_name=('Date started'),null=True, blank=True)
+    company_registration_no = models.CharField(max_length=255, null=True, blank=True)
+    company_start_date = models.DateTimeField(verbose_name='Date started', null=True, blank=True)
 
     contact_number = models.CharField(max_length=20, null=True, blank=True)
     contact_email = models.CharField(max_length=255, null=True, blank=True)

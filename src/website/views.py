@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.generic import DetailView, ListView, TemplateView
 
@@ -11,6 +12,7 @@ class HomeView(ListView):
     model = Job
 
     def get_context_data(self, **kwargs):
+
         context = super(HomeView, self).get_context_data(**kwargs)
         jobs = Job.objects.filter(status='o')
 

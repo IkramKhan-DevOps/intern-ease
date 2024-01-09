@@ -1,14 +1,9 @@
 from django.contrib import messages
-from django.core.mail.backends.smtp import EmailBackend
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView, TemplateView, DetailView
-from django.core.mail import send_mail
-
-from core import settings
 from src.accounts.decorators import company_required
 from src.portals.company.bll import get_user_company_bll
 from .models import Job, Company, Candidate

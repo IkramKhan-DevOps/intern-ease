@@ -1,9 +1,11 @@
 {% load static %}
+{% load custom_tags %}
+
 {#{% load notifications_tags %}#}
 <!doctype html>
 <html lang="en">
 <head>
-    <link rel="icon" href="{% static "core/images/logo_100.png" %}">
+    <link rel="icon" href="{{ app.logo|image_or_placeholder }}">
     <title>App |
 
         {# BASE HALF TITLE #}
@@ -49,10 +51,6 @@
             <div class="page-content mt-4">
                 <div class="container-fluid mt-5">
 
-                    <div class="row">
-                        {% include 'core/include/message.html' %}
-                    </div>
-
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -97,7 +95,7 @@
 
 {% endblock %}
 {# -------------------------------------------------------- #}
-
+{% include 'messages.html' %}
 </body>
 </html>
 
