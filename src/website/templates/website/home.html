@@ -37,8 +37,7 @@
                         <div class="row">
                             <div class="col">
                                 <p class="card-title mb-0">{{ object.title }}</p>
-                                <p class="mb-0"><a href="{% url 'website:project-detail' object.id %}">{{
-                                    object.company.name }}</a></p>
+                                <p class="mb-0"><a href="{% url 'website:project-detail' object.id %}">{{object.company.name }}</a></p>
                             </div>
                             <div class="col text-right">
                                 <p class="mb-0 card-title">{{ object.category.name }}</p>
@@ -389,7 +388,7 @@
 
         <div class="grid md:grid-cols-1 grid-cols-1 mt-8">
             <div class="md:col-span-12 text-center">
-                <a href="job-grid-two.html"
+                <a href="{%  url 'website:internship'  %}"
                    class="btn btn-link text-slate-400 hover:text-emerald-600 after:bg-emerald-600 duration-500 ease-in-out">See
                     More Jobs <i class="uil uil-arrow-right align-middle"></i></a>
             </div>
@@ -468,18 +467,18 @@
 
                     <div class="grid md:grid-cols-2 grid-cols-1 gap-6 mt-8">
 
-                        {% for i in '1234' %}
+                        {% for object in companies %}
                         <div class="p-3 rounded shadow dark:shadow-gray-700 bg-slate-50 dark:bg-slate-800">
                             <div class="flex items-center">
                                 <div class="w-12 h-12 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                                    <img src="{% static 'website/assets/images/company/spotify.png' %}" class="h-8 w-8"
+                                    <img src="{{ object.logo | image_or_placeholder }}" class="h-8 w-8"
                                          alt="">
                                 </div>
 
                                 <div class="ms-3">
                                     <a href="employer-detail.html"
-                                       class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">Spotify</a>
-                                    <span class="block text-sm text-emerald-600">5 Vacancy</span>
+                                       class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{ object.name }}</a>
+                                    <span class="block text-sm text-emerald-600">20 Vacancy</span>
                                 </div>
                             </div>
                         </div>
@@ -489,7 +488,7 @@
 
                     <div class="grid md:grid-cols-12 grid-cols-1 mt-6">
                         <div class="md:col-span-12">
-                            <a href="#"
+                            <a href="{% url 'website:company' %}"
                                class="btn btn-link text-slate-400 hover:text-emerald-600 after:bg-emerald-600 duration-500 ease-in-out">See
                                 More Companies <i class="uil uil-arrow-right align-middle"></i></a>
                         </div>
@@ -572,7 +571,13 @@
                         less corresponds to 'proper' Latin.</p>
                 </div>
             </div>
-        </div><!--end grid-->
+        </div>
+
+          {# Support Tabs #}
+         <div class="mt-7">
+          {% include 'website/include/support_tabs.html' %}
+         </div>
+
     </div>
 
 </section>

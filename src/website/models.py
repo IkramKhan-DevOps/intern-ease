@@ -66,3 +66,17 @@ class Application(models.Model):
         if Application.objects.exists() and not self.pk:
             raise ValidationError("Only one record allowed.")
         super(Application, self).clean_fields(exclude=exclude)
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100, help_text='Contact name')
+    email = models.EmailField(max_length=100, help_text='Contact email')
+    message = models.TextField(help_text='Contact message')
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Contact"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name

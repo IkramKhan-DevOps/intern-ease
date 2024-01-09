@@ -16,6 +16,7 @@ class Company(models.Model):
     description = models.TextField(null=True, blank=True)
     business_type = models.CharField(max_length=255, choices=TYPE_CHOICE, default='per')
 
+    logo = models.ImageField(upload_to='company_logo', null=True, blank=True)
     company_registration_no = models.CharField(max_length=255, null=True, blank=True)
     company_start_date = models.DateTimeField(verbose_name='Date started', null=True, blank=True)
 
