@@ -52,7 +52,7 @@ py manage.py runserver
 ## How to migrate
 
 ```shell
-python manage.py makemigrations accounts company
+python manage.py makemigrations accounts company website
 python manage.py migrate
 ```
 ----
