@@ -1,30 +1,37 @@
 import os
+import environ
+from pathlib import Path
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+""" APPLICATION CONFIGURATIONS """
+BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env(
+    DEBUG=(bool, True)
+)
+environ.Env.read_env(BASE_DIR / '.env')
 
 """ CONFIGURATIONS -----------------------------------------------------------------------------------------------"""
 
-AUTH_USER_MODEL = 'accounts.User'
-ROOT_URLCONF = 'core.urls'
-WSGI_APPLICATION = 'core.wsgi.application'
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-SECRET_KEY = "12367812790631263092183712-37123"
-
 DEBUG = True
-SERVER = False
-ALLOWED_HOSTS = ['*']
+SECRET_KEY = env('SECRET_KEY')
+ENVIRONMENT = env('ENVIRONMENT')
+SITE_ID = int(env('SITE_ID'))
 
-SITE_ID = 1
-GOOGLE_CALLBACK_ADDRESS = "http://127.0.0.1:8000/accounts/google/login/callback/"
+DOMAIN = env('DOMAIN')
+PROTOCOL = env('PROTOCOL')
+BASE_URL = f"{PROTOCOL}://{DOMAIN}"
+ALLOWED_HOSTS = str(env('ALLOWED_HOSTS')).split(',')
+CSRF_TRUSTED_ORIGINS = [f'{PROTOCOL}://{host}' for host in ALLOWED_HOSTS]
+LOGOUT_REDIRECT_URL = '/accounts/cross-auth/'
+LOGIN_REDIRECT_URL = '/accounts/cross-auth/'
+GOOGLE_CALLBACK_ADDRESS = f"{BASE_URL}/accounts/google/login/callback/"
 
-if SERVER:
-    SITE_ID = 2
-    GOOGLE_CALLBACK_ADDRESS = "http://00.pythonanywhere.com/accounts/google/login/callback/"
+ROOT_URLCONF = 'core.urls'
+AUTH_USER_MODEL = 'accounts.User'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-LOGIN_REDIRECT_URL = '/accounts/cross-auth/'
+FIXTURE_DIRS = ['fixtures']
 
 """ INSTALLATIONS ------------------------------------------------------------------------------------------------"""
 
@@ -50,7 +57,7 @@ INSTALLED_APPS = [
 
     # USER_APPLICATIONS
     'src.accounts',
-    'src.website',
+    'src.website.apps.WebsiteConfig',
     'src.portals.company',
     'src.portals.customer',
 
@@ -92,6 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'src.website.context_processors.application'
             ],
         },
     },
@@ -107,51 +115,64 @@ DATABASES = {
 """ INTERNATIONALIZATION ----------------------------------------------------------------------------------------- """
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Asia/Tashkent'
+TIME_ZONE = env('TIME_ZONE')
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-""" PATHS STATIC AND MEDIA --------------------------------------------------------------------------------------- """
-
+""" RESIZER IMAGE --------------------------------------------------------------------------------"""
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    BASE_DIR / 'static'
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
-
+STATIC_ROOT = BASE_DIR / 'assets'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
+""" RESIZER IMAGE --------------------------------------------------------------------------------"""
+
+DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
+DJANGORESIZED_DEFAULT_QUALITY = 75
+DJANGORESIZED_DEFAULT_KEEP_META = True
+DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {
+    'JPEG': ".jpg",
+    'PNG': ".png",
+    'GIF': ".gif"
+}
+DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
 """ EMAIL AND ALL AUTH ------------------------------------------------------------------------------------------- """
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'email@gmail.com'
-# EMAIL_HOST_PASSWORD = '0000000000000000000'
-# EMAIL_PORT = 587
-# DEFAULT_FROM_EMAIL = 'CORE-Team <noreply@core.com>'
-
-# Email configuration for Gmail
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "saqibahmad778866@gmail.com"
-EMAIL_HOST_PASSWORD = "tpmdoiafedglayca"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "donald.duck0762@gmail.com"
+EMAIL_HOST_PASSWORD = "ldffqlzcmycujcxu"
+EMAIL_PORT = "587"
+DEFAULT_FROM_EMAIL = 'support@fldai.org'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {'SCOPE': ['profile', 'email', ],
                'AUTH_PARAMS': {'access_type': 'online', }}
 }
 
+""" ALL-AUTH SETUP --------------------------------------------------------------------------------"""
+ACCOUNT_LOGOUT_ON_GET = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
 OLD_PASSWORD_FIELD_ENABLED = True
 LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+# Make sure to remove this in live server - use it on local server
+# if ENVIRONMENT != 'server':
+#     INSTALLED_APPS += [
+#         'django_browser_reload'
+#     ]
+#     MIDDLEWARE += [
+#         'django_browser_reload.middleware.BrowserReloadMiddleware'
+#     ]

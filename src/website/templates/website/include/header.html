@@ -1,64 +1,22 @@
+{% load custom_tags %}
 {% load static %}
-<!--<nav class="navbar navbar-expand-lg navigation fixed-top sticky">-->
-
-<!--    <div class="container">-->
-<!--        <a class="navbar-logo" href="/">-->
-<!--            {# WHITE #}-->
-<!--            <img src="{% static 'core/images/logo_100.png' %}" alt="" height="19" class="logo logo-dark">-->
-<!--            {# COLORED #}-->
-<!--            <img src="{% static 'core/images/logo_100.png' %}" alt="" height="19" class="logo logo-light">-->
-<!--        </a>-->
-
-<!--        <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light"-->
-<!--                data-toggle="collapse" data-target="#topnav-menu-content">-->
-<!--            <i class="fa fa-fw fa-bars"></i>-->
-<!--        </button>-->
-
-<!--        <div class="collapse navbar-collapse" id="topnav-menu-content">-->
-<!--            <ul class="navbar-nav ml-auto" id="topnav-menu">-->
-
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="/">Home</a>-->
-<!--                </li>-->
-
-
-<!--            </ul>-->
-
-
-<!--            {% if request.user.is_authenticated %}-->
-<!--                <div class="ml-lg-2">-->
-<!--                    <a class="btn btn-sm btn-success" href="{% url 'accounts:cross-auth-view' %}">-->
-<!--                        <i class="mdi mdi-view-dashboard"></i> Dashboard-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            {% else %}-->
-<!--                <div class="ml-lg-2">-->
-<!--                    <a class="btn btn-sm btn-success" href="{% url 'account_login' %}">-->
-<!--                        <i class="mdi mdi-account-lock"></i> Login-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            {% endif %}-->
-
-
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
 
 <!--WEBSITE------------------------------------------------------------------------------------------------------------>
 
 <nav id="topnav" class="defaultscroll is-sticky nav-sticky">
     <div class="container">
-        <a class="logo" href="index.html">
+        <a class="logo" href="/">
             <div class="block sm:hidden">
-                <img src="{% static 'website/assets/images/logo-icon-40.png' %}" class="h-10 inline-block dark:hidden" alt="">
-                <img src="{% static 'website/assets/images/logo-icon-40-white.png' %}" class="h-10 hidden dark:inline-block" alt="">
+
+                <img src="{{ app.logo|image_or_placeholder }}" class="h-10 inline-block dark:hidden" alt="">
+                <img src="{{ app.logo|image_or_placeholder }}" class="h-10 hidden dark:inline-block" alt="">
             </div>
             <div class="sm:block hidden">
                         <span class="inline-block dark:hidden">
-                            <img src="{% static 'website/assets/images/logo-dark.png' %}" class="h-[24px] l-dark" alt="">
-                            <img src="{% static 'website/assets/images/logo-light.png' %}" class="h-[24px] l-light" alt="">
+                                <img src="{{ app.logo|image_or_placeholder }}" class="h-[24px] l-dark" alt="">
+                                <img src="{{ app.logo|image_or_placeholder }}" class="h-[24px] l-light" alt="">
                         </span>
-                <img src="{% static 'website/assets/images/logo-white.png' %}" class="h-[24px] hidden dark:inline-block" alt="">
+                <img src="{{ app.logo|image_or_placeholder }}" class="h-[24px] hidden dark:inline-block" alt="">
             </div>
         </a>
 
@@ -76,11 +34,11 @@
 
         <div id="navigation">
             <ul class="navigation-menu justify-end nav-light">
-                <li><a href="{% url 'website:home'%}" class="sub-menu-item">Home</a></li>
-                <li><a href="{% url 'website:home'%}" class="sub-menu-item">Company</a></li>
-                <li><a href="{% url 'website:internship'%}" class="sub-menu-item">Internships</a></li>
-                <li><a href="{% url 'website:about'%}" class="sub-menu-item">About</a></li>
-                <li><a href="{% url 'website:contact'%}" class="sub-menu-item">Contact</a></li>
+                <li><a href="{% url 'website:home' %}" class="sub-menu-item">Home</a></li>
+                <li><a href="{% url 'website:home' %}" class="sub-menu-item">Company</a></li>
+                <li><a href="{% url 'website:internship' %}" class="sub-menu-item">Internships</a></li>
+                <li><a href="{% url 'website:about' %}" class="sub-menu-item">About</a></li>
+                <li><a href="{% url 'website:contact' %}" class="sub-menu-item">Contact</a></li>
             </ul>
         </div>
     </div>

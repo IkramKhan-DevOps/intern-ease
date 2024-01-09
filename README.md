@@ -60,7 +60,7 @@ python manage.py migrate
 ## HOW TO CREATE SUPERUSER
 
 ```shell
-python manage.py createsuperuser
+py manage.py createsuperuser
 ```
 
 
