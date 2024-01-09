@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+
+{% load i18n %}
+{% load account %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block base_title %}
+    Confirm Email
+{% endblock %}
+
+
+{% block head_title %}{% trans "Confirm E-mail Address" %}{% endblock %}
+
+{% block base_top_nav %} {% endblock %}
+{% block dont_include_details %}
+
+    {% include 'core/include/message.html' %}
+
+    <div class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-sm-8 col-12">
+                <div class="text-center">
+                    <img src="{% static 'images/logo_100.png' %}">
+                    <p class="text-danger mt-1"><b>Account Security</b></p>
+                </div>
+
+                <hr class="border border-danger">
+
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-title">{% trans "Confirm E-mail Address" %}</p>
+                    </div>
+                    <div class="card-body">
+
+                        <p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are
+                            about to use your {{ provider_name }} account to login to
+                            {{ site_name }}. As a final step, please complete the following form:{% endblocktrans %}</p>
+
+                        <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}"
+                                       value="{{ redirect_field_value }}"/>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary">{% trans "Sign Up" %} &raquo;</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

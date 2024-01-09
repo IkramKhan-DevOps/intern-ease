@@ -1,0 +1,112 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block base_title %}Identification Check{% endblock %}
+{% block base_top_nav %}{% endblock %}
+
+{% block dont_include_details %}
+
+    {# HOME LINK #}
+    <div class="home-btn d-none d-sm-block">
+        <a href="/" class="text-dark"><i class="fas fa-home h2"></i></a>
+    </div>
+
+    <div class="my-4 pt-sm-5">
+
+        {% include 'core/include/message.html' %}
+
+        <div class="container">
+
+            <!-- THIS IS UPPER AREA -->
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                    <h2 class="lead mb-4" style="font-size: xx-large"><i class="fa fa-running"></i> Just One Step Behind!
+                    </h2>
+                    <p>
+                        <b>Jobs Portal</b> was developed during the times of <b class="text-danger">COVID-19</b> to help
+                        companies to find the employees whereas others can find the best jobs according to their needs.
+                    </p>
+                </div>
+            </div>
+
+            <form method="post" action="">
+                {% csrf_token %}
+
+                {# FORM CONTENT -------------- #}
+                <div class="row mt-4">
+
+                    {# STUDENT #}
+                    <div class="col">
+                        <div class="card rounded">
+                            <div class="card-body">
+
+                                <div class="text-center">
+                                    <img src="{% static 'images/logo_100.png' %}">
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <b class="text-secondary">
+                                        <p class="my-0">Add jobs</p>
+                                        <p class="my-0">Job details</p>
+                                        <p class="my-0">Applied candidates</p>
+                                        <p class="my-0">Accept applications</p>
+                                        <p class="my-0">Hire employees</p>
+                                    </b>
+                                </div>
+
+                            </div>
+                            <div class="card-footer bg-white border-top text-center">
+                                <input type="radio" value="1" name="user_type" id="user_type"
+                                       class="form-check-inline"> <b class="lead">Find employees</b>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {# TEACHER #}
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="text-center">
+                                    <img src="{% static 'images/logo_100.png' %}">
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <b class="text-secondary">
+                                        <p class="my-0">Search jobs</p>
+                                        <p class="my-0">Add favourites</p>
+                                        <p class="my-0">Apply for jobs</p>
+                                        <p class="my-0">Enjoy</p>
+                                    </b>
+                                </div>
+
+                            </div>
+                            <div class="card-footer bg-white border-top text-center">
+                                <input type="radio" value="2" name="user_type" id="user_type" class="form-check-inline">
+                                <b class="lead">Find a Job</b>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                {# SUBMISSION ---------------- #}
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="text-center">
+                            <button class="btn btn-lg btn-primary" type="submit">
+                                <i class="fa fa-check-circle"></i>
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+

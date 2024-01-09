@@ -1,0 +1,66 @@
+{% extends 'application/base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block base_title %}Login{% endblock %}
+
+{% block base_top_nav %}{% endblock %}
+
+
+{% block content %}
+
+    <div class="p-ground h-100 py-5">
+
+        <div class="text-center text-light">
+            <img src="{% static 'images/nologo.png' %}" class="rounded-circle" height="100px;">
+            <p class="m-0">COCOGNITO</p>
+            <small><i>"YOUR_TAG_LINE_HERE: something great happening soon."</i></small>
+        </div>
+
+        <div class="container py-5 text-left">
+            <div class="row justify-content-center">
+                <div class="col-sm-5 text-dark ">
+                    {#                    {% include 'message.html' %}#}
+                    <div class="p-sm-5 p-3 border bg-white rounded">
+                        <form class="text-dark" action="" method=""
+                              autocomplete="off" enctype="multipart/form-data">
+                            <h3 class="text-center">Student Log in</h3>
+                            <hr>
+
+                            <div class="form-group">
+                                <input type="email" class="form-control bg-light" aria-describedby="emailHelp"
+                                       placeholder="Email or Username Here">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" class="form-control bg-light" id="exampleInputEmail1"
+                                       aria-describedby="emailHelp" placeholder="Password Here">
+                            </div>
+
+                            <p class="text-muted small">
+                                <b class="text-danger">NOTE > </b>This page is specified for student login if you are
+                                searching for parent's login or registration please check the links given below.
+                            </p>
+                            <a href="{% url 'application:parent_login' %}" class="small"> Parents login Here.</a><br>
+                            <a href="#" class="small">Students registration Here.</a><br>
+                            <a href="mailto:help@cocognito.com" class="small">Have any question ? Contact here.</a>
+                            <hr>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-sm btn-success">
+                                    <i class="fa fa-tick"></i> Login
+                                </button>
+                                <a type="submit" href="{% provider_login_url 'google' %}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-google"></i>oogle
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

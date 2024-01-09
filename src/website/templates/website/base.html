@@ -1,0 +1,89 @@
+{% load static %}
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+
+    <meta charset="utf-8"/>
+
+    <title>App |
+        {% block base_title %}
+        Home
+        {% endblock %}
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Project - Home page" name="description"/>
+    <meta content="mark" name="author"/>
+    <meta content="multirole-business" name="organization"/>
+
+    <link rel="shortcut icon" href="{% static 'core/images/logo_100.png' %}">
+    <link rel="stylesheet" href="{% static 'core/libs/owl.carousel/assets/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/libs/owl.carousel/assets/owl.theme.default.min.css' %}">
+
+    <link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'core/css/icons.min.css' %}" rel="stylesheet"/>
+
+    <link href="{% static 'core/css/app.min.css' %}" rel="stylesheet"/>
+
+    <!--    Website Links-->
+    <link rel="shortcut icon" href="{% static 'website/assets/images/favicon.ico' %}">
+
+    <!-- Css -->
+    <link href="{% static 'website/assets/libs/tobii/css/tobii.min.css' %}" rel="stylesheet">
+    <link href="{% static 'website/assets/libs/tiny-slider/tiny-slider.css' %}" rel="stylesheet">
+    <link href="{% static 'website/assets/libs/choices.js/public/assets/styles/choices.min.css' %}" rel="stylesheet">
+    <!-- Main Css -->
+    <link href="{% static 'website/assets/libs/%40iconscout/unicons/css/line.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'website/assets/libs/%40mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'website/assets/css/tailwind.min.css' %}" rel="stylesheet" type="text/css">
+
+    {% block base_css_links %}
+
+    {% endblock %}
+
+    {% block css %}
+    {% endblock %}
+
+</head>
+
+<body  class="dark:bg-slate-900">
+
+
+{% include 'website/include/header.html' %}
+
+
+{% block base_content %}{% endblock %}
+
+{% include 'website/include/footer.html' %}
+
+
+{% include 'website/include/mini_code.html' %}
+
+
+<script src="{% static 'core/libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'core/libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'core/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'core/libs/node-waves/waves.min.js' %}"></script>
+
+<script src="{% static 'core/libs/jquery.easing/jquery.easing.min.js' %}"></script>
+
+<script src="{% static 'core/libs/jquery-countdown/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'core/libs/owl.carousel/owl.carousel.min.js' %}"></script>
+<script src="{% static 'core/js/pages/ico-landing.init.js' %}"></script>
+<script src="{% static 'core/js/app.js' %}"></script>
+
+<!--Website Scripts Links-->
+<!-- JAVASCRIPTS -->
+<script src="{% static 'website/assets/libs/tobii/js/tobii.min.js' %}"></script>
+<script src="{% static 'website/assets/libs/tiny-slider/min/tiny-slider.js' %}"></script>
+<script src="{% static 'website/assets/libs/choices.js' %}/public/assets/scripts/choices.min.js' %}"></script>
+<script src="{% static 'website/assets/libs/feather-icons/feather.min.js' %}"></script>
+<script src="{% static 'website/assets/js/plugins.init.js' %}"></script>
+<script src="{% static 'website/assets/js/app.js' %}"></script>
+
+{% block base_internal_js %}{% endblock %}
+
+</body>
+</html>
+{% block base_external_js %}{% endblock %}

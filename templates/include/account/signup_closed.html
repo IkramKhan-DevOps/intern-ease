@@ -1,0 +1,35 @@
+{% extends 'application/base.html' %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load static %}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block base_title %}Signup Closed{% endblock %}
+
+{% block base_top_nav %}{% endblock %}
+
+{% block content %}
+
+    <div class="bg-danger p-4">
+        <p class="text-center text-light h4 m-0">COCOGNITO</p>
+        <p class="text-center text-light small">welcome to cocognito user accounts security.</p>
+    </div>
+
+    <div class="container text-secondary">
+
+        <div>
+            {% include 'application/message.html' %}
+        </div>
+        <div class="container text-secondary">
+            <div class="row justify-content-center">
+                <div class="p-4 col-10 col-sm-7 bg-light mt-5">
+                    <h1>{% trans "Sign Up Closed" %}</h1>
+
+                    <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

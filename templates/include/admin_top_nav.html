@@ -1,0 +1,289 @@
+{% load static %}
+{% load notifications_tags %}
+
+<header id="page-topbar" style="background-color: orangered;">
+    <div class="navbar-header" style="background-color: orangered;">
+        <div class="d-flex">
+            <!-- LOGO -->
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <a href="/" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="{% static 'images/cocognito_Logo_symbol.svg' %}" alt="" height="22">
+                                </span>
+                    <span class="logo-lg">
+                                    <img src="{% static 'images/cocognito_Logo_symbol.svg' %}" alt="" height="17">
+                                </span>
+                </a>
+
+                <a href="/" class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="{% static 'images/new_1.png' %}" alt="" height="22">
+                                </span>
+                    <span class="logo-lg">
+                                    <img src="{% static 'images/new_1.png' %}" alt="" height="19">
+                                </span>
+                </a>
+            </div>
+
+            <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light"
+                    data-toggle="collapse" data-target="#topnav-menu-content">
+                <i class="fa fa-fw fa-bars"></i>
+            </button>
+
+        </div>
+
+        <div class="d-flex">
+
+
+            {# FLAGS #}
+            <div class="dropdown d-none d-lg-inline-block ml-1">
+                <button type="button" class="btn header-item waves-effect"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="" src="{% static 'core/images/flags/us.jpg' %}" alt="Header Language"
+                         height="16">
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{% static 'core/images/flags/spain.jpg' %}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">Spanish</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{% static 'core/images/flags/germany.jpg' %}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">German</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{% static 'core/images/flags/italy.jpg' %}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">Italian</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{% static 'core/images/flags/russia.jpg' %}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">Russian</span>
+                    </a>
+                </div>
+            </div>
+
+            {# FULL_SCREEN #}
+            <div class="dropdown d-none d-lg-inline-block ml-1">
+                <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                    <i class="bx bx-fullscreen"></i>
+                </button>
+            </div>
+
+            {# NOTIFICATIONS #}
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item noti-icon waves-effect"
+                        id="page-header-notifications-dropdown"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bx bx-bell bx-tada"></i>
+                    <span class="badge badge-dark badge-pill">
+                        {% live_notify_badge %}
+                    </span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
+                     aria-labelledby="page-header-notifications-dropdown">
+                    <div class="p-3">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="m-0"> Notifications </h6>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#" class="small"> View All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-simplebar style="max-height: 230px;">
+                        <div id="notify_me_now">
+
+                        </div>
+                        <div class="p-2 border-top text-center">
+                            <button class="btn text-primary small" onclick="unread_all_notifications()">
+                                <i class="mdi mdi-arrow-right-circle mr-1"></i> Mark All as Read
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {#            <div class="dropdown d-inline-block">#}
+            {#                <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">#}
+            {#                    <i class="bx bx-cog bx-spin"></i>#}
+            {#                </button>#}
+            {#            </div>#}
+
+
+            {# USER ONLINE #}
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user"
+                            {% if request.user.profile.profile %}
+                         src="{{ request.user.profile.profile.url }}"
+                            {% else %}
+                         src="{% static 'core/images/users/avatar-7.jpg' %}"
+                            {% endif %}
+                         alt="Header Avatar">
+                    <span class="d-none d-xl-inline-block ml-1">{{ request.user.username }}</span>
+                    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <!-- item-->
+                    <a class="dropdown-item" href="{% url 'application:dashboard' %}">
+                        <i class="bx bxs-dashboard font-size-16 align-middle mr-1"></i> Dashboard
+                    </a>
+                    <a class="dropdown-item" href="{% url 'application:profile_update' %}">
+                        <i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item d-block text-danger" href="#">
+                        {#                        <span class="badge badge-success float-right">11</span>#}
+                        <i class="bx bx-wrench font-size-16 align-middle mr-1"></i> Settings
+                    </a>
+                    <a class="dropdown-item" href="{% url 'account_email' %}">
+                        <i class="bx bxl-telegram font-size-16 align-middle mr-1"></i> Email accounts
+                    </a>
+                    <a class="dropdown-item" href="{% url 'account_change_password' %}">
+                        <i class="bx bx-lock-open font-size-16 align-middle mr-1"></i>Password Change
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-primary" href="{% url 'account_logout' %}">
+                        <i class="bx bx-power-off font-size-16 align-middle mr-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</header>
+<div class="topnav">
+    <div class="container-fluid">
+        <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
+
+            <div class="collapse navbar-collapse" id="topnav-menu-content">
+                <ul class="navbar-nav">
+
+                    {#DASHBOARD#}
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle arrow-none" href="{% url 'application:dashboard' %}">
+                            <i class="bx bx-home-circle mr-2"></i>Admin Dashboard
+                        </a>
+                    </li>
+
+
+                    {#DASHBOARD#}
+                    {#                    <li class="nav-item dropdown">#}
+                    {#                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"#}
+                    {#                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                    {#                            <i class="bx bx-user-circle mr-2"></i>Accounts#}
+                    {#                            <div class="arrow-down"></div>#}
+                    {#                        </a>#}
+                    {#                        <div class="dropdown-menu" aria-labelledby="topnav-dashboard">#}
+                    {##}
+                    {#                            <a href="{% url 'application:404' %}" class="dropdown-item text-danger">Students</a>#}
+                    {#                            <a href="{% url 'application:404' %}" class="dropdown-item text-danger">Parents</a>#}
+                    {#                            <a href="{% url 'application:404' %}" class="dropdown-item text-danger">Admins</a>#}
+                    {#                        </div>#}
+                    {#                    </li>#}
+
+
+                    {# Apps #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-customize mr-2"></i>Apps
+                            <div class="arrow-down"></div>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="topnav-pages">
+
+                            <a href="{% url 'application:quiz_builder' %}" class="dropdown-item">Quiz Builder</a>
+                            <a href="{% url 'application:question_builder' %}" class="dropdown-item">Question
+                                Builder</a>
+                            <a href="{% url 'application:add_article' %}" class="dropdown-item">Article Builder</a>
+                            <a href="" class="dropdown-item">Site
+                                Builder</a>
+                        </div>
+                    </li>
+
+
+                    {# FEATURES #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-collection mr-2"></i>Features
+                            <div class="arrow-down"></div>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="topnav-components">
+                            <div class="dropdown">
+                                <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-charts"
+                                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Articles
+                                    <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-charts">
+                                    <a href="" class="dropdown-item">User View</a>
+                                    <a href="{% url 'application:articles' %}" class="dropdown-item">View
+                                        All</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
+                                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Quizzes
+                                    <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-form">
+                                    <a href="{% url 'application:quizzes' %}" class="dropdown-item">View All</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-table"
+                                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Questions
+                                    <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-table">
+                                    <a href="{% url 'application:questions' %}" class="dropdown-item">View All</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-charts"
+                                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Teams
+                                    <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-charts">
+                                    <a href="{% url 'application:admin_teams' %}" class="dropdown-item">View All</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-charts"
+                                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Subjects
+                                    <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-charts">
+                                    <a href="{% url 'application:add_subject' %}" class="dropdown-item">
+                                        Add New
+                                    </a>
+                                    <a href="{% url 'application:subjects' %}" class="dropdown-item">
+                                        View All
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>

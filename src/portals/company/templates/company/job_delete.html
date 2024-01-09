@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block base_title %} # {{ object.pk }} {% endblock %}
+
+{% block page_heading %}
+
+    {% if object.ticket_type.priority == 'h' %}
+        <b class="p-2 bg-danger text-white"><i class="fa fa-exclamation-circle"></i> High</b>
+    {% elif object.ticket_type.priority == 'm' %}
+        <b class="p-2 bg-warning text-white"><i class="fa fa-exclamation-circle"></i> Medium</b>
+    {% else %}
+        <b class="p-2 bg-secondary text-white"><i class="fa fa-exclamation-circle"></i> Low</b>
+    {% endif %}
+
+    {% if object.is_completed %}
+        <b class="p-2 bg-danger text-white"><i class="fa fa-door-closed"></i> Closed</b>
+    {% else %}
+        <b class="p-2 bg-success text-white"><i class="fa fa-door-open"></i> Open</b>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-8">
+
+            <div class="card-body border-bottom">
+                <p class="my-0 card-title">Ticket Information</p>
+            </div>
+            <div class="card-body">
+                <p>
+                    <b>
+                        {{ object.description }}
+                    </b>
+                </p>
+            </div>
+            <div class="card-body border-top">
+                <p class="mb-0"><i class="fa fa-calendar"></i> {{ object.created_on }}</p>
+            </div>
+
+        </div>
+        <div class="col-4">
+
+            {% if not object.is_completed %}
+                <div class="card text-danger">
+                    <div class="card-body border-bottom border-danger">
+                        <p class="my-0 card-title">Current Status</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Make sure user queries/problem is resolved, if not please resolve user issue first then
+                            close it
+                        </p>
+                        <a class="btn btn-danger" href="{% url 'admin-portal:ticket-status-change' object.pk %}">
+                            <i class="fa fa-check-circle"></i> Close Ticket
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card">
+                    <div class="card-body border-bottom">
+                        <p class="my-0 card-title">Current Status</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Case has been resolved and token has been closed, if you want to reopen issue please click
+                            <b><a href="{% url 'admin-portal:ticket-status-change' object.pk %}">Here.</a></b>
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}

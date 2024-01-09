@@ -1,0 +1,104 @@
+{% load static %}
+
+{% load static %}
+
+<header id="page-topbar">
+    <div class="navbar-header">
+        <div class="d-flex">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <a href="{% url 'home' %}" class="logo logo-dark text-dark">
+                                <span class="logo-sm">
+                                    <b>COCOGNITO</b>
+{#                                    <img src="{% static 'application/images/logo_100.png' %}" alt="" height="21">#}
+                                </span>
+                    <span class="logo-lg">
+                                    <b>COCOGNITO</b>
+{#                        <img src="{% static 'application/images/logo_100.png' %}" alt="" height="21">#}
+                                </span>
+                </a>
+
+                <a href="{% url 'home' %}" class="logo logo-light text-light">
+                                <span class="logo-sm">
+                                    <b class="lead">COCOGNITO</b>
+{#                                    <img src="{% static 'application/images/logo_100.png' %}" alt="" height="21">#}
+                                </span>
+                    <span class="logo-lg">
+                                    <b class="lead">COCOGNITO</b>
+{#                        <img src="{% static 'application/images/logo_100.png' %}" alt="" height="21">#}
+                                </span>
+                </a>
+            </div>
+
+            <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light"
+                    data-toggle="collapse" data-target="#topnav-menu-content">
+                <i class="fa fa-fw fa-bars"></i>
+            </button>
+
+        </div>
+
+        <div class="d-flex">
+
+
+            {# FLAGS #}
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item waves-effect"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="" src="{% static 'core/images/flags/us.jpg' %}" alt="Header Language"
+                         height="16">
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{% static 'core/images/flags/spain.jpg' %}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">Spanish</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{% static 'core/images/flags/germany.jpg' %}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">German</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{% static 'core/images/flags/italy.jpg' %}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">Italian</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{% static 'core/images/flags/russia.jpg' %}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">Russian</span>
+                    </a>
+                </div>
+
+
+            </div>
+
+            {# FLAGS #}
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item waves-effect"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa bx bx-power-off"></i> Login</button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{% url 'account_login' %}">
+                        <i class="bx bx-user font-size-16 align-middle mr-1"></i> Student
+                    </a>
+
+                    <a class="dropdown-item" href="{% url 'account_login' %}">
+                        <i class="bx bx-pencil font-size-16 align-middle mr-1"></i> Parent
+                    </a>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-primary" href="{% url 'account_login' %}">
+                        <i class="bx bxs-check-shield font-size-16 align-middle mr-1"></i> <b>Admin</b>
+                    </a>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</header>

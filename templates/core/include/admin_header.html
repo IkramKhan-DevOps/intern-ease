@@ -1,0 +1,28 @@
+{% load static %}
+
+<li class="nav-item">
+    <a class="nav-link" href="/">
+        <i class="bx bxs-home mr-2"></i>Home
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'company:dashboard' %}">
+        <i class="bx bx-sitemap mr-2"></i>Dashboard
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'company:company-update' %}">
+        <i class="bx bx-globe mr-2"></i>Company
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'company:job-list' %}">
+        <i class="bx bx-briefcase mr-2"></i>Job
+    </a>
+</li>
+
+
+{# ------------------------------------------------------------------------------------------------------------------ #}

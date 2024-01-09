@@ -1,0 +1,30 @@
+{% load static %}
+
+{#DASHBOARD#}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'application:dashboard' %}">
+        <i class="bx bxs-dashboard mr-2"></i>Dashboard
+    </a>
+</li>
+
+{#QUIZES#}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'application:quizes' %}">
+        <i class="bx bx-clipboard mr-2"></i>Quizzes
+    </a>
+</li>
+
+{#TEAMS#}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'application:teams' %}">
+        <i class="bx bx-sitemap mr-2"></i>Teams
+    </a>
+</li>
+
+{#Learning#}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'application:learning_resources' %}">
+        <i class="bx bx-book mr-2"></i>Learning Resource
+    </a>
+</li>
+

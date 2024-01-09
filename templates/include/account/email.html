@@ -1,0 +1,111 @@
+{% extends 'application/base.html' %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load static %}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block base_title %}Logout{% endblock %}
+
+{% block base_top_nav %}{% endblock %}
+
+{% block dont_include_details %}
+
+    <div class="container text-secondary">
+        <div class="row justify-content-center">
+
+            <div class="col-sm-8 col-12 my-4">
+
+                {% include 'application/message.html' %}
+
+                <div class="card border">
+                    <div class="card-header">
+                        <p class="card-title text-center">Your Linked Email Addresses</p>
+                    </div>
+                    <div class="card-body">
+
+                        {% if user.emailaddress_set.all %}
+                            <p class="card-text">{% trans 'The following e-mail addresses are associated with your account.' %}</p>
+
+                            <form action="{% url 'account_email' %}" class="email_list" method="post">
+                                {% csrf_token %}
+                                <fieldset class="blockLabels">
+
+                                    {% for emailaddress in user.emailaddress_set.all %}
+                                        <div class="ctrlHolder">
+                                            <label for="email_radio_{{ forloop.counter }}"
+                                                   class="{% if emailaddress.primary %}primary_email{% endif %}">
+
+                                                <input id="email_radio_{{ forloop.counter }}" type="radio" name="email"
+                                                       {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{% endif %}
+                                                       value="{{ emailaddress.email }}"/>
+
+                                                {{ emailaddress.email }}
+                                                {% if emailaddress.verified %}
+                                                    <span class="verified text-success">{% trans "Verified" %}</span>
+                                                {% else %}
+                                                    <span class="unverified text-danger">{% trans "Unverified" %}</span>
+                                                {% endif %}
+                                                {% if emailaddress.primary %}
+                                                    <span class="primary text-primary">{% trans "Primary" %}</span>{% endif %}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+
+                                    <div class="buttonHolder mt-2">
+                                        <button class="secondaryAction btn btn-sm btn-secondary" type="submit"
+                                                name="action_primary "><i class="bx bx-play"></i> {% trans 'Make Primary' %}</button>
+                                        <button class="secondaryAction btn btn-sm btn-secondary" type="submit"
+                                                name="action_send"><i class="bx bxl-telegram"></i> {% trans 'Verifiy Me' %}</button>
+                                        <button class="primaryAction btn btn-sm btn-secondary" type="submit"
+                                                name="action_remove"><i class="bx bx-trash"></i> {% trans 'Remove' %}</button>
+                                    </div>
+
+                                </fieldset>
+                            </form>
+
+                        {% else %}
+                            <p class="text-danger">
+                                <strong>{% trans 'Warning:' %}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}
+                            </p>
+
+                        {% endif %}
+
+
+
+                    </div>
+                    <div class="card-footer">
+                        {% if can_add_email %}
+                            <p class="card-title">{% trans "Add E-mail Address" %}</p>
+
+                            <form method="post" action="{% url 'account_email' %}" class="add_email">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <button name="action_add" class="btn btn-sm btn-success"
+                                        type="submit"><i class="fa fa-plus"></i> {% trans "Add" %}</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block base_external_scripts %}
+    <script type="text/javascript">
+        (function () {
+            var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+            var actions = document.getElementsByName('action_remove');
+            if (actions.length) {
+                actions[0].addEventListener("click", function (e) {
+                    if (!confirm(message)) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        })();
+    </script>
+{% endblock %}

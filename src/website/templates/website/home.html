@@ -1,0 +1,580 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+
+{% block base_contents %}
+
+<section class="section hero-section bg-ico-hero" id="home">
+    <div class="bg-overlay bg-primary"></div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12">
+                <div class="text-white-50 text-center">
+                    <h1 class="text-white font-weight-semibold mb-0 hero-title">
+                        Find a Job <i class="fa fa-briefcase"></i>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section bg-white" id="roadmap">
+    <div class="container">
+
+        <div class="row">
+
+            {# JOBS LIST #}
+            <div class="col-8">
+
+                {% if object_list %}
+                {% for object in object_list %}
+
+                <div class="card border">
+                    <div class="card-body border-bottom">
+                        <div class="row">
+                            <div class="col">
+                                <p class="card-title mb-0">{{ object.title }}</p>
+                                <p class="mb-0"><a href="{% url 'website:project-detail' object.id %}">{{
+                                    object.company.name }}</a></p>
+                            </div>
+                            <div class="col text-right">
+                                <p class="mb-0 card-title">{{ object.category.name }}</p>
+                                <p class="mb-0 card-title">Total Vacancies : {{ object.vacancy }}</p>
+                                <p class="mb-0 card-title-desc text-success"><b>OPEN</b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {{ object.description }}
+                        <p class="text-secondary mb-0">{{ object.created_on }}</p>
+                    </div>
+                    <div class="card-body border-top">
+                        <div class="row text-center">
+                            <div class="col border-right">
+                                <h5 class="mb-0">
+                                    {% if object.pk in like_ids and request.user.is_authenticated %}
+                                    <a href="{% url 'customer:job-like' object.pk %}" class="text-danger"><i
+                                            class="fa fa-thumbs-down text-danger"></i> Dislike</a>
+                                    {% else %}
+                                    <a href="{% url 'customer:job-like' object.pk %}"><i
+                                            class="fa fa-thumbs-up text-primary"></i> Like</a>
+                                    {% endif %}
+                                </h5>
+                            </div>
+                            <div class="col">
+                                <h5 class="mb-0">
+                                    <a href="{% url 'customer:application-apply' object.pk %}"><i
+                                            class="fa fa-clipboard-check"></i> Apply</a>
+                                </h5>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {% endfor %}
+                {% else %}
+                <p class="text-danger">
+                    <b>
+                        <i class="fa fa-exclamation-circle"></i>
+                        No open jobs available right now
+                    </b>
+                </p>
+                {% endif %}
+
+            </div>
+
+            {# SEARCH #}
+            {% if job_list %}
+            <div class="col-4">
+                <div class="card border">
+                    <div class="card-body border-bottom">
+                        <p class="mb-0 card-title">Search</p>
+                        <p class="mb-0 card-title-desc">Filters for advanced search</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="get">
+                            <div class="">
+                                {{ filter_form }}
+                                <div class="mt-2">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                    <a href="#" class="btn btn-danger" type="submit">
+                                        <i class="fa fa-brush"></i> Clean
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        {% if object_list %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mt-4">
+                    <ul class="pagination">
+                        {% if object_list.has_previous %}
+                        <li>
+                            <span>
+                                <a href="{% relative_url object_list.previous_page_number 'page' request.GET.urlencode %}">
+                                    Previous
+                                </a>
+                            </span>
+                        </li>
+                        {% endif %}
+                        <li class="">
+                            <span>Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.</span>
+                        </li>
+                        {% if object_list.has_next %}
+                        <li>
+                            <span>
+                                <a href="{% relative_url object_list.next_page_number 'page' request.GET.urlencode %}">
+                                    Next
+                                </a>
+                            </span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block css %}
+<style>
+    .bg-hero {
+    background-image: url('{% static "website/assets/images/hero/bg.jpg" %}');
+    background-size: cover;
+}
+</style>
+
+{% endblock %}
+
+
+{% block base_external_js %}
+<script>
+    $(document).ready(function () {
+
+        $('label').hide();
+        $('input').addClass('form-control mb-2');
+        $('select').addClass('form-control mb-2');
+
+    });
+</script>
+{% endblock %}
+
+{% block base_content %}
+<section class="relative h-screen flex justify-center items-center bg-hero  bg-cover">
+    <div class="absolute inset-0 bg-slate-900/30"></div>
+    <div class="container z-1">
+        <div class="grid grid-cols-1 text-center mt-10 relative">
+            <h4 class="lg:leading-normal leading-normal text-4xl lg:text-6xl mb-5 font-bold text-white">Find &amp; Hire
+                Experts <br> for any Job</h4>
+            <p class="text-white/50 text-lg max-w-xl mx-auto">Find Jobs, Employment &amp; Career Opportunities. Some of
+                the companies we've helped recruit excellent applicants over the years.</p>
+
+            <div class="d-flex" id="reserve-form">
+                <div class="md:w-5/6 mx-auto">
+                    <div class="lg:col-span-10 mt-8">
+                        <div class="bg-white dark:bg-slate-900 border-0 shadow rounded-md p-3">
+                            <form action="#">
+                                <div class="registration-form text-dark text-start">
+                                    <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-0 gap-6">
+                                        <div class="filter-search-form relative filter-border">
+                                            <i class="uil uil-briefcase-alt icons"></i>
+                                            <input name="name" type="text" id="job-keyword"
+                                                   class="form-input filter-input-box bg-gray-50 dark:bg-slate-800 border-0"
+                                                   placeholder="Search your Keywords">
+                                        </div>
+
+                                        <div class="filter-search-form relative filter-border">
+                                            <i class="uil uil-map-marker icons"></i>
+                                            <div class="choices" data-type="select-one" tabindex="0" role="combobox"
+                                                 aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+                                                <div class="choices__inner"><select class="form-select choices__input"
+                                                                                    data-trigger=""
+                                                                                    name="choices-location"
+                                                                                    id="choices-location"
+                                                                                    aria-label="Default select example"
+                                                                                    hidden="" tabindex="-1"
+                                                                                    data-choice="active">
+                                                    <option value="AF" data-custom-properties="[object Object]">
+                                                        Afghanistan
+                                                    </option>
+                                                </select>
+                                                    <div class="choices__list choices__list--single">
+                                                        <div class="choices__item choices__item--selectable"
+                                                             data-item="" data-id="1" data-value="AF"
+                                                             data-custom-properties="[object Object]"
+                                                             aria-selected="true">Afghanistan
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="choices__list choices__list--dropdown"
+                                                     aria-expanded="false"><input type="search" name="search_terms"
+                                                                                  class="choices__input choices__input--cloned"
+                                                                                  autocomplete="off"
+                                                                                  autocapitalize="off"
+                                                                                  spellcheck="false" role="textbox"
+                                                                                  aria-autocomplete="list"
+                                                                                  aria-label="null" placeholder="">
+                                                    <div class="choices__list" role="listbox">
+                                                        <div id="choices--choices-location-item-choice-1"
+                                                             class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted"
+                                                             role="option" data-choice="" data-id="1" data-value="AF"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="" aria-selected="true">Afghanistan
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-2"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="2" data-value="AZ"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Azerbaijan
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-3"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="3" data-value="BS"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Bahamas
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-4"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="4" data-value="BH"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Bahrain
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-5"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="5" data-value="CA"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Canada
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-6"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="6" data-value="CV"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Cape Verde
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-7"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="7" data-value="DK"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Denmark
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-8"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="8" data-value="DJ"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Djibouti
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-9"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="9" data-value="ER"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Eritrea
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-10"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="10" data-value="EE"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Estonia
+                                                        </div>
+                                                        <div id="choices--choices-location-item-choice-11"
+                                                             class="choices__item choices__item--choice choices__item--selectable"
+                                                             role="option" data-choice="" data-id="11" data-value="GM"
+                                                             data-select-text="Press to select"
+                                                             data-choice-selectable="">Gambia
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <input type="submit" id="search" name="search" style="height: 60px;"
+                                               class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white searchbtn submit-btn w-100"
+                                               value="Search">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <span class="text-white/60"><span class="text-white">Popular Searches :</span> Designer, Developer, Web, IOS, PHP Senior Engineer</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="relative md:py-24 py-16">
+
+    <div class="container md:mt-24 mt-16">
+        <div class="grid grid-cols-1 pb-8 text-center">
+            <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Popular Jobs</h3>
+
+            <p class="text-slate-400 max-w-xl mx-auto">Search all the open positions on the web. Get your own
+                personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
+        </div>
+
+        <div class="grid grid-cols-1 mt-8 gap-[30px]">
+
+            {% if object_list %}
+            {% for object in object_list %}
+            <div class="group relative overflow-hidden md:flex justify-between items-center rounded shadow hover:shadow-md dark:shadow-gray-700 transition-all duration-500 p-5">
+                <div class="flex items-center">
+                    <div class="w-14 h-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
+                        <img src="https://placehold.co/100" class="h-8 w-8" alt="">
+                    </div>
+                    <a href="job-detail-one.html"
+                       class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500 ms-3 min-w-[180px]">
+                        {{object.title}}
+                    </a>
+                </div>
+
+                <div class="md:block flex justify-between md:mt-0 mt-4">
+                    <span class="block">
+                        <span class="bg-emerald-600/10 inline-block text-emerald-600 text-xs px-2.5 py-0.5 font-semibold rounded-full">Start</span>
+                        <span class="block text-slate-400 text-sm mt-2 mb-2"><i class="uil uil-clock"></i>{{object.start_time|date}}</span>
+                    </span>
+                    <span class="block">
+                        <span class="bg-red-600 inline-block text-white text-xs px-2.5 py-0.5 font-semibold rounded-full">End</span>
+                        <span class="block text-slate-400 text-sm  mt-2"><i class="uil uil-clock"></i>{{object.end_time|date}}</span>
+                    </span>
+                </div>
+
+                <div class="md:block flex justify-between md:mt-0 mt-2">
+                    <span class="text-slate-400"><i
+                            class="uil uil-map-marker">Address : </i><strong>{{object.company.company_address}}</strong></span> <br>
+                    <span class="text-slate-400"><i class="uil uil-shop">Company : </i><strong>{{object.company.name}}</strong></span>
+                    <span class="block md:mt-1 mt-0">Vacancy : {{object.vacancy}}</span>
+                </div>
+
+                <div class="md:mt-0 mt-4">
+                    <a href="job-apply.html"
+                       class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">Apply
+                        Now</a>
+                </div>
+
+                <span class="w-24 bg-yellow-400 text-white text-center absolute ltr:-rotate-45 rtl:rotate-45 -start-[30px] top-1"><i
+                        class="uil uil-star"></i></span>
+            </div>
+            {% endfor %}
+            {% else %}
+
+            <p class="text-danger">
+                <b>
+                    <i class="fa fa-exclamation-circle"></i>
+                    No open jobs available right now
+                </b>
+            </p>
+            {% endif %}
+        </div>
+
+        <div class="grid md:grid-cols-1 grid-cols-1 mt-8">
+            <div class="md:col-span-12 text-center">
+                <a href="job-grid-two.html"
+                   class="btn btn-link text-slate-400 hover:text-emerald-600 after:bg-emerald-600 duration-500 ease-in-out">See
+                    More Jobs <i class="uil uil-arrow-right align-middle"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container md:mt-24 mt-16">
+        <div class="grid grid-cols-1">
+            <div class="relative overflow-hidden bg-emerald-600 rounded-md shadow dark:shadow-gray-700">
+                <div class="grid md:grid-cols-2 items-center gap-[30px]">
+                    <div class="relative">
+                        <img src="{% static 'website/assets/images/about/ab05.jpg' %}" alt="">
+                        <div class="absolute md:bottom-1/2 md:translate-y-1/2 md:-end-10 ltr:md:translate-x-0 rtl:md:translate-x-0 -bottom-10 end-1/2 ltr:translate-x-1/2 rtl:-translate-x-1/2 text-center">
+                            <a href="#!" data-type="youtube" data-id="S_CGed6E610"
+                               class="lightbox h-20 w-20 rounded-full shadow-lg dark:shadow-gray-700 inline-flex items-center justify-center bg-white dark:bg-slate-900 text-emerald-600 dark:text-white">
+                                <i class="mdi mdi-play inline-flex items-center justify-center text-2xl"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="text-white p-4">
+                            <h4 class="leading-normal text-4xl mb-3 font-semibold">Get the job of your <br> dreams
+                                quickly.</h4>
+
+                            <p class="text-white/70 text-lg max-w-xl">Search all the open positions on the web. Get your
+                                own personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
+
+                            <ul class="list-none text-white/50 mt-4">
+                                <li class="mb-1 flex"><i class="uil uil-check-circle text-white text-xl me-2"></i>
+                                    Digital Marketing Solutions for Tomorrow
+                                </li>
+                                <li class="mb-1 flex"><i class="uil uil-check-circle text-white text-xl me-2"></i> Our
+                                    Talented &amp; Experienced Marketing Agency
+                                </li>
+                                <li class="mb-1 flex"><i class="uil uil-check-circle text-white text-xl me-2"></i>
+                                    Create your own skin to match your brand
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end grid-->
+    </div>
+
+    <div class="container md:mt-24 md:pb-16 mt-16">
+        <div class="grid md:grid-cols-12 grid-cols-1 items-center gap-[30px]">
+            <div class="lg:col-span-5 md:col-span-6 md:order-2 order-1">
+                <div class="relative">
+                    <div class="relative flex justify-end">
+                        <img src="{% static 'website/assets/images/about/ab03.jpg' %}"
+                             class="lg:w-[400px] w-[280px] rounded-md shadow dark:shadow-gray-700" alt="">
+                        <div class="absolute top-0 translate-y-2/4 start-0 text-center">
+                            <a href="#!" data-type="youtube" data-id="S_CGed6E610"
+                               class="lightbox h-20 w-20 rounded-full shadow-lg dark:shadow-gray-700 inline-flex items-center justify-center bg-white dark:bg-slate-900 text-emerald-600 dark:text-white">
+                                <i class="mdi mdi-play inline-flex items-center justify-center text-2xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="absolute md:-start-5 start-0 -bottom-16">
+                        <img src="{% static 'website/assets/images/about/ab04.jpg' %}"
+                             class="lg:w-[280px] w-[200px] border-8 border-white dark:border-slate-900 rounded-md shadow dark:shadow-gray-700"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 md:col-span-6 mt-14 md:mt-0 md:order-1 order-2">
+                <div class="lg:me-5">
+                    <h3 class="mb-6 md:text-[26px] text-2xl md:leading-normal leading-normal font-semibold">Find Best
+                        Companies.</h3>
+
+                    <p class="text-slate-400 max-w-xl">Search all the open positions on the web. Get your own
+                        personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
+
+                    <div class="grid md:grid-cols-2 grid-cols-1 gap-6 mt-8">
+
+                        {% for i in '1234' %}
+                        <div class="p-3 rounded shadow dark:shadow-gray-700 bg-slate-50 dark:bg-slate-800">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
+                                    <img src="{% static 'website/assets/images/company/spotify.png' %}" class="h-8 w-8"
+                                         alt="">
+                                </div>
+
+                                <div class="ms-3">
+                                    <a href="employer-detail.html"
+                                       class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">Spotify</a>
+                                    <span class="block text-sm text-emerald-600">5 Vacancy</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="grid md:grid-cols-12 grid-cols-1 mt-6">
+                        <div class="md:col-span-12">
+                            <a href="#"
+                               class="btn btn-link text-slate-400 hover:text-emerald-600 after:bg-emerald-600 duration-500 ease-in-out">See
+                                More Companies <i class="uil uil-arrow-right align-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container md:mt-24 mt-16">
+        <div class="grid grid-cols-1 pb-8 text-center">
+            <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Questions &amp;
+                Answers</h3>
+
+            <p class="text-slate-400 max-w-xl mx-auto">Search all the open positions on the web. Get your own
+                personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
+        </div><!--end grid-->
+
+        <div class="grid md:grid-cols-2 grid-cols-1 mt-8 gap-[30px]">
+            <div class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-help-circle h-8 text-emerald-600 me-3">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <div class="flex-1">
+                    <h5 class="mb-2 text-lg font-semibold">How our <span class="text-emerald-600">Jobstack</span> work ?
+                    </h5>
+                    <p class="text-slate-400">Due to its widespread use as filler text for layouts, non-readability is
+                        of great importance: human perception is tuned to recognize certain patterns and repetitions in
+                        texts.</p>
+                </div>
+            </div>
+
+            <div class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-help-circle h-8 text-emerald-600 me-3">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <div class="flex-1">
+                    <h5 class="mb-2 text-lg font-semibold"> What is the main process open account ?</h5>
+                    <p class="text-slate-400">If the distribution of letters and 'words' is random, the reader will not
+                        be distracted from making a neutral judgement on the visual impact</p>
+                </div>
+            </div>
+
+            <div class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-help-circle h-8 text-emerald-600 me-3">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <div class="flex-1">
+                    <h5 class="mb-2 text-lg font-semibold"> How to make unlimited data entry ?</h5>
+                    <p class="text-slate-400">Furthermore, it is advantageous when the dummy text is relatively
+                        realistic so that the layout impression of the final publication is not compromised.</p>
+                </div>
+            </div>
+
+            <div class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-help-circle h-8 text-emerald-600 me-3">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <div class="flex-1">
+                    <h5 class="mb-2 text-lg font-semibold"> Is <span class="text-emerald-600">Jobstack</span> safer to
+                        use with my account ?</h5>
+                    <p class="text-slate-400">The most well-known dummy text is the 'Lorem Ipsum', which is said to have
+                        originated in the 16th century. Lorem Ipsum is composed in a pseudo-Latin language which more or
+                        less corresponds to 'proper' Latin.</p>
+                </div>
+            </div>
+        </div><!--end grid-->
+    </div>
+
+</section>
+{% endblock %}
+

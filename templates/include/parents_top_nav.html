@@ -1,0 +1,59 @@
+{% load static %}
+
+<div class="nav bg-danger justify-content-center">
+    <a class="navbar-link text-light p-1 small">
+        Cocognito is under-development its just a prototype - all the text and
+        designs are temporary will be changed according to application requirements
+        <i class="fa fa-heart text-light"></i></a>
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg p-2" style="z-index: 10;">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/" style="font-size: 16px;">COCOGNITO <small
+                class="text-success small text-muted">version_0.1</small></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link small" href="/home/">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link small" href="#">My Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link small" href="#">Resources</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link small" href="/learning_resource/">Learning Resource</a>
+                </li>
+                {% if not request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link small" href="{% url 'account_login' %}">Login</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <img class="nav-link dropdown-toggle small rounded-circle"
+                             src="{% static 'images/exarth_logo_white_head.png' %}"
+                             id="navbarDropdown" role="button" height="40px"
+                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item small" href=""><i class="fa fa-dashboard"></i> Dashboard</a>
+                            <a class="dropdown-item small" href="{% url 'application:profile_update' %}"><i
+                                    class="fa fa-heart"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item small" href=""><i class="fa fa-refresh"></i> Settings</a>
+                            <a class="dropdown-item small" href=""><i class="fa fa-shopping-cart"></i> Privacy</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger small" href="{% url 'account_logout' %}"><i
+                                    class="fa fa-sign-out"></i> Sign Out</a>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

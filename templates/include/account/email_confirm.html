@@ -1,0 +1,29 @@
+{% extends 'application/base.html' %}
+
+{% load i18n %}
+
+{% block base_title %}Verify Your Email Address{% endblock %}
+{% block base_top_nav %}{% endblock %}
+{% block content %}
+
+    <div class="bg-danger p-4">
+        <p class="text-center text-light h4 m-0">COCOGNITO</p>
+        <p class="text-center text-light small">welcome to cocognito user accounts security.</p>
+    </div>
+
+    <div>
+        {% include 'application/message.html' %}
+    </div>
+    <div class="container text-secondary">
+        <div class="row justify-content-center">
+            <div class="p-4 col-10 col-sm-7 bg-light mt-5">
+                <h1>{% trans "Verify Your E-mail Address" %}</h1>
+
+                <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize
+                    the
+                    signup process. Please contact us if you do not receive it within a few
+                    minutes.{% endblocktrans %}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

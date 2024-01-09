@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block base_title %} Delete {{ object.job.title }}{% endblock %}
+
+{% block content %}
+
+    <div class="checkout-tabs">
+        <form method="post">
+            <div class="row">
+
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post">{% csrf_token %}
+                                <p class="mb-2">Are you sure you want to leave this job
+                                    <b class="text-danger">"{{ object.job.title }}"</b>
+                                    ?</p>
+                                <input type="submit" class="btn btn-danger" value="Confirm">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

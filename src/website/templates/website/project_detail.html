@@ -1,0 +1,54 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block base_content %}
+<!-- hero section start -->
+<section class="section hero-section bg-ico-hero" id="home">
+    <div class="bg-overlay bg-primary"></div>
+    <div class="container">
+        <div class="row align-items-center text-center">
+            <div class="col-lg-12">
+                <div class="text-white-50">
+                    <h1 class="my-2">{{object.company.name}}</h1>
+                    <h3 class="text-white  mb-1 ">
+                        {{object.company.tag_line}}
+                    </h3>
+                    <div class="row justify-content-center">
+
+                        <div class="col-8 ">
+                            <p class="text-white">Registration No : {{object.company.company_registration_no}}</p>
+                        </div>
+                        <div class="col-8 ">
+                            <p class="text-white">Email Address : {{object.company.contact_email}}</p>
+                            <p class="text-white">Phone No : {{object.company.contact_number}}</p>
+                            <p class="text-white">Phone No : {{object.company.company_address}}</p>
+
+                        </div>
+
+                        <div class="col-8 ">
+                            <p class="text-white">{{object.company.description}}</p>
+                        </div>
+                    </div>
+
+
+                </div>
+                <hr>
+
+        </div>
+    </div>
+    <!-- end row -->
+    </div>
+    <!-- end container -->
+</section>
+
+<section class="section">
+    <div class="container">
+
+        <div class="col-lg-12">
+            <p class="mb-4">{{ object.description }}</p>
+            <b><i class="fa fa-pen"></i> Created On | {{ object.created_on }}</b>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
