@@ -1,0 +1,154 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block base_content %}
+    <section class="bg-slate-50 dark:bg-slate-800 md:py-24 py-16">
+        <div class="container mt-10">
+            <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
+                <div class="lg:col-span-4 md:col-span-6">
+                    <div class="p-6 shadow dark:shadow-gray-700 rounded-md bg-white dark:bg-slate-900 sticky top-20">
+                        <img src="{{ object.logo|image_or_placeholder }}"
+                             class="rounded-full h-28 w-28 p-4 bg-white dark:bg-slate-900 shadow dark:shadow-gray-700"
+                             alt="">
+
+                        <div class="md:ms-4 mt-4">
+                            <h5 class="text-xl font-semibold">{{ object.name }}</h5>
+                            <div class="mt-1">
+                               <span class="text-slate-400 font-medium me-2 inline-block"><i
+                                        class="uil uil-map-marker text-[18px] text-emerald-600 me-1"></i>{{ object.company_address }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--end col-->
+
+                <div class="lg:col-span-8 md:col-span-6">
+                    <h5 class="text-lg font-semibold">About:</h5>
+                    <ul class="list-none mt-5">
+                        <li class="inline-flex items-center py-2 px-4 bg-white me-2 my-1 shadow dark:shadow-gray-700 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-word h-5 w-5">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <polyline points="17 11 19 13 23 9"></polyline>
+                            </svg>
+
+                            <div class="ms-4">
+                                <p class="font-medium">Tagline:</p>
+                                <span class="text-emerald-600 font-medium text-sm">{{ object.tag_line }}</span>
+                            </div>
+                        </li>
+
+                        <li class="inline-flex items-center py-2 px-4 bg-white me-2 my-1 shadow dark:shadow-gray-700 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-map-pin h-5 w-5">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+
+                            <div class="ms-4">
+                                <p class="font-medium">Location:</p>
+                                <span class="text-emerald-600 font-medium text-sm">{{ object.company_address }}</span>
+                            </div>
+                        </li>
+
+                        <li class="inline-flex items-center py-2 px-4 bg-white me-2 my-1 shadow dark:shadow-gray-700 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-monitor h-5 w-5">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+
+                            <div class="ms-4">
+                                <p class="font-medium">Company Type:</p>
+                                <span class="text-emerald-600 font-medium text-sm">{{ object.business_type }}</span>
+                            </div>
+                        </li>
+
+                        <li class="inline-flex items-center py-2 px-4 bg-white me-2 my-1 shadow dark:shadow-gray-700 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-book h-5 w-5">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+
+                            <div class="ms-4">
+                                <p class="font-medium">Contact:</p>
+                                <span class="text-emerald-600 font-medium text-sm">{{ object.contact_number }}</span>
+                            </div>
+                        </li>
+                             <li class="inline-flex items-center py-2 px-4 bg-white me-2 my-1 shadow dark:shadow-gray-700 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-mail h-5 w-5">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+
+                            <div class="ms-4">
+                                <p class="font-medium">Email:</p>
+                                <span class="text-emerald-600 font-medium text-sm">{{ object.contact_email }}</span>
+                            </div>
+                        </li>
+
+                        <li class="inline-flex items-center py-2 px-4 bg-white me-2 my-1 shadow dark:shadow-gray-700 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-clock h-5 w-5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+
+                            <div class="ms-4">
+                                <p class="font-medium">Started Date:</p>
+                                <span class="text-emerald-600 font-medium text-sm">{{ object.company_start_date|date }}</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h5 class="text-lg font-semibold mt-6"> Description:</h5>
+
+                    <p class="text-slate-400 mt-4">{{ object.description }}</p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container lg:mt-24 mt-16">
+            <div class="grid grid-cols-1 pb-8 text-center">
+                <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Related
+                    Vacancies</h3>
+
+                <p class="text-slate-400 dark:text-slate-300 max-w-xl mx-auto">Search all the open positions on the web.
+                    Get your own personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
+            </div><!--end grid-->
+
+            <div class="grid lg:grid-cols-3 md:grid-cols-2 mt-8 gap-[30px]">
+                {% for object in companies %}
+                    <div class="p-3 rounded shadow dark:shadow-gray-700 bg-slate-50 dark:bg-slate-800">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
+                                <img src="{{ object.logo | image_or_placeholder }}" class="h-8 w-8"
+                                     alt="">
+                            </div>
+
+                            <div class="ms-3">
+                                <a href="employer-detail.html"
+                                   class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{ object.name }}</a>
+                                <span class="block text-sm text-emerald-600">20 Vacancy</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}
+

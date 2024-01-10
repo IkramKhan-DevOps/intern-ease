@@ -5,12 +5,12 @@
 {% block base_content %}
 
     <section
-            class="relative table w-full py-36 bg-[url('../../assets/images/hero/bg.jpg')] bg-top bg-no-repeat bg-cover">
+            class="relative table w-full py-36 bg-[url('../../assets/images/hero/bg.html')] bg-top bg-no-repeat bg-cover">
         <div class="absolute inset-0 bg-emerald-900/90"></div>
         <div class="container">
             <div class="grid grid-cols-1 text-center mt-10">
-                <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">Job
-                    Vacancies</h3>
+                <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">
+                    Companies</h3>
             </div>
         </div>
     </section>
@@ -23,11 +23,9 @@
         </div>
     </div>
 
-
     <section class="relative -mt-[42px] md:pb-24 pb-16">
 
-        {# Search Filter #}
-
+        {# SEARCH FILTER #}
         <div class="container z-1">
             <div class="d-flex" id="reserve-form">
                 <div class="md:w-5/6 mx-auto">
@@ -215,81 +213,98 @@
                                         <input type="submit" id="search" name="search" style="height: 60px;"
                                                class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white searchbtn submit-btn w-100"
                                                value="Search">
-                                    </div>
-                                </div>
+                                    </div><!--end grid-->
+                                </div><!--end container-->
                             </form>
                         </div>
-                    </div>
+                    </div><!--ed col-->
                 </div>
-            </div>
+            </div><!--end grid-->
         </div>
 
-        {# JOB LIST #}
+        {# COMPANY LIST #}
         <div class="container mt-10">
-            <div class="grid grid-cols-1 gap-[30px]">
+            <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-[30px]">
 
-                {% if  object_list %}
+                {% if object_list %}
                     {% for object in object_list %}
-                        <div class="group relative overflow-hidden md:flex justify-between items-center rounded shadow hover:shadow-md dark:shadow-gray-700 transition-all duration-500 p-5">
-                            <div class="flex items-center">
-                                <div class="w-14 h-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                                    <img src="https://placehold.co/100" class="h-8 w-8" alt="">
+                        <div class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-14 h-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
+                                        <img src="{{ object.logo | image_or_placeholder }}" class="h-8 w-8" alt="">
+                                    </div>
+
+                                    <div class="ms-3">
+                                        <a href="{% url 'website:company-details' object.id %}"
+                                           class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{ object.name }}</a>
+                                    </div>
                                 </div>
-                                <a href="{% url 'website:internship-details' object.id %}"
-                                   class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500 ms-3 min-w-[180px]">
-                                    {{ object.title }}
-                                </a>
+                                <span class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">ACTIVE</span>
                             </div>
 
-                            <div class="md:block flex justify-between md:mt-0 mt-4">
-                    <span class="block">
-                        <span class="bg-emerald-600/10 inline-block text-emerald-600 text-xs px-2.5 py-0.5 font-semibold rounded-full">Start</span>
-                        <span class="block text-slate-400 text-sm mt-2 mb-2"><i
-                                class="uil uil-clock"></i>{{ object.start_time|date }}</span>
-                    </span>
-                                <span class="block">
-                        <span class="bg-red-600 inline-block text-white text-xs px-2.5 py-0.5 font-semibold rounded-full">End</span>
-                        <span class="block text-slate-400 text-sm  mt-2"><i
-                                class="uil uil-clock"></i>{{ object.end_time|date }}</span>
-                    </span>
+                            <div class="mt-6">
+                                <h6 class="text-base font-medium"><i class="uil uil-map-marker"></i> {{ object.company_address }}</h6>
                             </div>
 
-                            <div class="md:block flex justify-between md:mt-0 mt-2">
-                    <span class="text-slate-400"><i
-                            class="uil uil-map-marker">Address : </i><strong>{{ object.company.company_address }}</strong></span>
-                                <br>
-                                <span class="text-slate-400"><i
-                                        class="uil uil-shop">Company : </i><strong>{{ object.company.name }}</strong></span>
-                                <span class="block md:mt-1 mt-0">Vacancy : {{ object.vacancy }}</span>
+                            <div class="mt-6">
+                                <div class="mt-2">
+                            <span class="text-slate-400 text-sm"><span
+                                    class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40 vacancy</span>
+                                </div>
                             </div>
-
-                            <div class="md:mt-0 mt-4">
-                                <a href="#"
-                                   class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">Apply
-                                    Now</a>
-                            </div>
-
-                            <span class="w-24 bg-yellow-400 text-white text-center absolute ltr:-rotate-45 rtl:rotate-45 -start-[30px] top-1"><i
-                                    class="uil uil-star"></i></span>
                         </div>
                     {% endfor %}
                 {% endif %}
 
             </div>
-        </div>
 
-        <div class="container md:mt-24 mt-16">
-            <div class="grid grid-cols-1 pb-8 text-center">
-                <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Here's why
-                    you'll love it Jobstack</h3>
-
-                <p class="text-slate-400 max-w-xl mx-auto">Search all the open positions on the web. Get your own
-                    personalized salary estimate. Read reviews Most companies worldwide.</p>
+            {# PAGINATION #}
+            <div class="grid md:grid-cols-12 grid-cols-1 mt-8">
+                <div class="md:col-span-12 text-center">
+                    <nav aria-label="Page navigation example">
+                        <ul class="inline-flex items-center -space-x-px">
+                            <li>
+                                <a href="#"
+                                   class="w-[40px] h-[40px] inline-flex justify-center items-center text-slate-400 bg-white dark:bg-slate-900 rounded-s-3xl hover:text-white border border-gray-100 dark:border-gray-800 hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600">
+                                    <i class="uil uil-angle-left text-[20px] rtl:rotate-180 rtl:-mt-1"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   class="w-[40px] h-[40px] inline-flex justify-center items-center text-slate-400 hover:text-white bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600">1</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   class="w-[40px] h-[40px] inline-flex justify-center items-center text-slate-400 hover:text-white bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600">2</a>
+                            </li>
+                            <li>
+                                <a href="#" aria-current="page"
+                                   class="z-10 w-[40px] h-[40px] inline-flex justify-center items-center text-white bg-emerald-600 border border-emerald-600">3</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   class="w-[40px] h-[40px] inline-flex justify-center items-center text-slate-400 hover:text-white bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600">4</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   class="w-[40px] h-[40px] inline-flex justify-center items-center text-slate-400 hover:text-white bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600">5</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   class="w-[40px] h-[40px] inline-flex justify-center items-center text-slate-400 bg-white dark:bg-slate-900 rounded-e-3xl hover:text-white border border-gray-100 dark:border-gray-800 hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600">
+                                    <i class="uil uil-angle-right text-[20px] rtl:rotate-180 rtl:-mt-1"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div><!--end col-->
             </div>
 
-            {# Support Tabs #}
-            {% include 'website/include/support_tabs.html' %}
+        </div>
 
+        {# Support Tabs #}
+        {% include 'website/include/support_tabs.html' %}
 
         </div>
     </section>

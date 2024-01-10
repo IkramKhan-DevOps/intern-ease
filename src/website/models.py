@@ -3,6 +3,7 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 
+# Model for storing application details
 class Application(models.Model):
     name = models.CharField(max_length=100, help_text='Application name', default='Exarth')
     short_name = models.CharField(max_length=10, help_text='Your application short name', default='EX')
@@ -42,10 +43,10 @@ class Application(models.Model):
     )
 
     address = models.CharField(
-        max_length=255, help_text='office address', default='123 Main St, Abbotabad, KPK Pakistan'
+        max_length=255, help_text='Office address', default='123 Main St, Abbotabad, KPK Pakistan'
     )
-    latitude = models.DecimalField(max_digits=10, decimal_places=6, help_text='latitude', default=23.7)
-    longitude = models.DecimalField(max_digits=10, decimal_places=6, help_text='longitude', default=90.3)
+    latitude = models.DecimalField(max_digits=10, decimal_places=6, help_text='Latitude', default=23.7)
+    longitude = models.DecimalField(max_digits=10, decimal_places=6, help_text='Longitude', default=90.3)
 
     terms_url = models.URLField(
         max_length=255, default='https://exarth.com/terms-of-use/', help_text='Terms and Conditions page link'
@@ -62,7 +63,23 @@ class Application(models.Model):
     def __str__(self):
         return self.name
 
+    # Validate only one record exists
     def clean_fields(self, exclude=None):
         if Application.objects.exists() and not self.pk:
             raise ValidationError("Only one record allowed.")
         super(Application, self).clean_fields(exclude=exclude)
+
+
+# Model for storing contact details
+class Contact(models.Model):
+    name = models.CharField(max_length=100, help_text='Contact name')
+    email = models.EmailField(max_length=100, help_text='Contact email')
+    message = models.TextField(help_text='Contact message')
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Contact"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name

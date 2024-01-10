@@ -18,7 +18,7 @@
                         <div class="md:col-span-9">
                             <ul class="list-disc footer-list ltr:md:text-right rtl:md:text-left text-center space-x-3">
                                 <li class="inline-block">
-                                    <a href="/"
+                                    <a href="{% url 'website:home' %}"
                                        class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">Home</a>
                                 </li>
                                 <li class="inline-block mt-[10px] md:mt-0">
@@ -29,15 +29,15 @@
                                 <li class="inline-block mt-[10px] md:mt-0">
                                     <a href="/"
                                        class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">Create
-                                        a job</a>
+                                        a account</a>
                                 </li>
                                 <li class="inline-block mt-[10px] md:mt-0">
-                                    <a href="/"
+                                    <a href="{% url 'website:about' %}"
                                        class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">About
                                         us</a>
                                 </li>
                                 <li class="inline-block mt-[10px] md:mt-0">
-                                    <a href="/"
+                                    <a href="{% url 'website:contact' %}"
                                        class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">Contact
                                         us</a>
                                 </li>
