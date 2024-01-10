@@ -46,7 +46,7 @@ Internease a web based application to facilitate students to get interships and 
 
 ```shell
 pip install -r requirements.txt
-py manage.py runserver
+python manage.py runserver
 ```
 
 ## How to migrate
