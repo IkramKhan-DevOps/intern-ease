@@ -2,157 +2,6 @@
 {% load static %}
 {% load custom_tags %}
 
-
-{% block base_contents %}
-
-<section class="section hero-section bg-ico-hero" id="home">
-    <div class="bg-overlay bg-primary"></div>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-12">
-                <div class="text-white-50 text-center">
-                    <h1 class="text-white font-weight-semibold mb-0 hero-title">
-                        Find a Job <i class="fa fa-briefcase"></i>
-                    </h1>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="section bg-white" id="roadmap">
-    <div class="container">
-
-        <div class="row">
-
-            {# JOBS LIST #}
-            <div class="col-8">
-
-                {% if object_list %}
-                {% for object in object_list %}
-
-                <div class="card border">
-                    <div class="card-body border-bottom">
-                        <div class="row">
-                            <div class="col">
-                                <p class="card-title mb-0">{{ object.title }}</p>
-                                <p class="mb-0"><a href="{% url 'website:project-detail' object.id %}">{{object.company.name }}</a></p>
-                            </div>
-                            <div class="col text-right">
-                                <p class="mb-0 card-title">{{ object.category.name }}</p>
-                                <p class="mb-0 card-title">Total Vacancies : {{ object.vacancy }}</p>
-                                <p class="mb-0 card-title-desc text-success"><b>OPEN</b></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        {{ object.description }}
-                        <p class="text-secondary mb-0">{{ object.created_on }}</p>
-                    </div>
-                    <div class="card-body border-top">
-                        <div class="row text-center">
-                            <div class="col border-right">
-                                <h5 class="mb-0">
-                                    {% if object.pk in like_ids and request.user.is_authenticated %}
-                                    <a href="{% url 'customer:job-like' object.pk %}" class="text-danger"><i
-                                            class="fa fa-thumbs-down text-danger"></i> Dislike</a>
-                                    {% else %}
-                                    <a href="{% url 'customer:job-like' object.pk %}"><i
-                                            class="fa fa-thumbs-up text-primary"></i> Like</a>
-                                    {% endif %}
-                                </h5>
-                            </div>
-                            <div class="col">
-                                <h5 class="mb-0">
-                                    <a href="{% url 'customer:application-apply' object.pk %}"><i
-                                            class="fa fa-clipboard-check"></i> Apply</a>
-                                </h5>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                {% endfor %}
-                {% else %}
-                <p class="text-danger">
-                    <b>
-                        <i class="fa fa-exclamation-circle"></i>
-                        No open jobs available right now
-                    </b>
-                </p>
-                {% endif %}
-
-            </div>
-
-            {# SEARCH #}
-            {% if job_list %}
-            <div class="col-4">
-                <div class="card border">
-                    <div class="card-body border-bottom">
-                        <p class="mb-0 card-title">Search</p>
-                        <p class="mb-0 card-title-desc">Filters for advanced search</p>
-                    </div>
-                    <div class="card-body">
-                        <form method="get">
-                            <div class="">
-                                {{ filter_form }}
-                                <div class="mt-2">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fa fa-search"></i> Search
-                                    </button>
-                                    <a href="#" class="btn btn-danger" type="submit">
-                                        <i class="fa fa-brush"></i> Clean
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-
-        </div>
-
-        {% if object_list %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="mt-4">
-                    <ul class="pagination">
-                        {% if object_list.has_previous %}
-                        <li>
-                            <span>
-                                <a href="{% relative_url object_list.previous_page_number 'page' request.GET.urlencode %}">
-                                    Previous
-                                </a>
-                            </span>
-                        </li>
-                        {% endif %}
-                        <li class="">
-                            <span>Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.</span>
-                        </li>
-                        {% if object_list.has_next %}
-                        <li>
-                            <span>
-                                <a href="{% relative_url object_list.next_page_number 'page' request.GET.urlencode %}">
-                                    Next
-                                </a>
-                            </span>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
-
-    </div>
-</section>
-
-{% endblock %}
-
 {% block css %}
 <style>
     .bg-hero {
@@ -163,19 +12,6 @@
 
 {% endblock %}
 
-
-{% block base_external_js %}
-<script>
-    $(document).ready(function () {
-
-        $('label').hide();
-        $('input').addClass('form-control mb-2');
-        $('select').addClass('form-control mb-2');
-
-    });
-</script>
-{% endblock %}
-
 {% block base_content %}
 <section class="relative h-screen flex justify-center items-center bg-hero  bg-cover">
     <div class="absolute inset-0 bg-slate-900/30"></div>
@@ -183,7 +19,7 @@
         <div class="grid grid-cols-1 text-center mt-10 relative">
             <h4 class="lg:leading-normal leading-normal text-4xl lg:text-6xl mb-5 font-bold text-white">Find &amp; Hire
                 Experts <br> for any Job</h4>
-            <p class="text-white/50 text-lg max-w-xl mx-auto">Find Jobs, Employment &amp; Career Opportunities. Some of
+            <p class="text-white/50 text-lg max-w-xl mx-auto">Find Internships, Employment &amp; Career Opportunities. Some of
                 the companies we've helped recruit excellent applicants over the years.</p>
 
             <div class="d-flex" id="reserve-form">
@@ -341,7 +177,7 @@
                     <div class="w-14 h-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
                         <img src="{{ object.logo|image_or_placeholder }}" class="h-8 w-8" alt="">
                     </div>
-                    <a href="job-detail-one.html"
+                    <a href="{% url 'website:internship-details' object.id %}"
                        class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500 ms-3 min-w-[180px]">
                         {{object.title}}
                     </a>
@@ -366,7 +202,7 @@
                 </div>
 
                 <div class="md:mt-0 mt-4">
-                    <a href="job-apply.html"
+                    <a href="{% url 'website:internship-details' object.id %}"
                        class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">Apply
                         Now</a>
                 </div>
@@ -476,7 +312,7 @@
                                 </div>
 
                                 <div class="ms-3">
-                                    <a href="employer-detail.html"
+                                    <a href="{% url 'website:company-details' object.id %}"
                                        class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{ object.name }}</a>
                                     <span class="block text-sm text-emerald-600">20 Vacancy</span>
                                 </div>
