@@ -17,7 +17,7 @@ class HomeView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        jobs = Job.objects.filter(status='o')
+        jobs = Job.objects.filter(status='open')
 
         # IF AUTHENTICATED USER
         if self.request.user.is_authenticated:
@@ -74,6 +74,12 @@ class InternshipDetailsView(DetailView):
     model = Job
     template_name = 'website/internship_details.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['internships'] = Job.objects.all()[:3]
+
+        return context
+
 
 class CompanyView(ListView):
     model = Company
@@ -83,6 +89,12 @@ class CompanyView(ListView):
 class CompanyDetailsView(DetailView):
     model = Company
     template_name = 'website/company_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['companies'] = Company.objects.all()[:3]
+
+        return context
 
 
 class ProjectView(DetailView):

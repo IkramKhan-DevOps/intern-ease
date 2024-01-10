@@ -236,7 +236,7 @@
                                     </div>
 
                                     <div class="ms-3">
-                                        <a href="employer-detail.html"
+                                        <a href="{% url 'website:company-details' object.id %}"
                                            class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{ object.name }}</a>
                                     </div>
                                 </div>

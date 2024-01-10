@@ -45,8 +45,8 @@ class Category(models.Model):
 # MODEL JOBS
 class Job(models.Model):
     STATUS_CHOICE = (
-        ('o', 'Open'),
-        ('c', 'Close')
+        ('open', 'Open'),
+        ('close', 'Close')
     )
 
     title = models.CharField(max_length=255)
@@ -55,11 +55,12 @@ class Job(models.Model):
     description = models.TextField()
     detailed_description = RichTextField(null=True, blank=True)
     company = models.ForeignKey('Company', related_name='job_provider', on_delete=models.CASCADE, blank=True)
+    logo = models.ImageField(upload_to='company_logo', null=True, blank=True)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='likes')
     candidates = models.ManyToManyField(User, related_name='candidates', through='Candidate')
-    status = models.CharField(max_length=1, choices=STATUS_CHOICE, default='o')
+    status = models.CharField(max_length=5, choices=STATUS_CHOICE, default='o')
 
     is_active = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now=False, auto_now_add=True)

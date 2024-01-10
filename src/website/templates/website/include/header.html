@@ -39,11 +39,11 @@
                 <li><a href="{% url 'website:internship' %}" class="sub-menu-item">Internships</a></li>
                 <li><a href="{% url 'website:about' %}" class="sub-menu-item">About</a></li>
                 <li><a href="{% url 'website:contact' %}" class="sub-menu-item">Contact</a></li>
-                <li>
-                    <a href="{% url 'accounts:cross-auth-view' %}" class="sub-menu-item">
-                        {% if request.user.is_authenticated %}Dashboard{% else %}Login{% endif %}
-                    </a>
-                </li>
+{#                <li>#}
+{#                    <a href="{% url 'accounts:cross-auth-view' %}" class="sub-menu-item">#}
+{#                        {% if request.user.is_authenticated %}Dashboard{% else %}Login{% endif %}#}
+{#                    </a>#}
+{#                </li>#}
             </ul>
         </div>
     </div>
