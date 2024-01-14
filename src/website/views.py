@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView
 
@@ -62,13 +63,21 @@ class ContactView(View):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your message has been sent successfully.')
-        return render(request, self.template_name, {'form': self.form}) if form.is_valid() else render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': self.form}) if form.is_valid() else render(request,
+                                                                                                       self.template_name,
+                                                                                                       {'form': form})
 
 
 # Class for displaying a list of internship jobs
 class InternshipView(ListView):
     model = Job
     template_name = 'website/internship.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('name')
+        if query:
+            return Job.objects.filter(Q(title__icontains=query))
+        return Job.objects.all()
 
 
 # Class for displaying details of a specific internship job
@@ -87,6 +96,12 @@ class InternshipDetailsView(DetailView):
 class CompanyView(ListView):
     model = Company
     template_name = 'website/company.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('name')
+        if query:
+            return Company.objects.filter(Q(name__icontains=query))
+        return Company.objects.all()
 
 
 # Class for displaying details of a specific company
@@ -110,4 +125,3 @@ class ProjectView(DetailView):
     def get_queryset(self):
         # Specify the queryset for retrieving project details along with related company information
         return Job.objects.select_related('company').all()
-
