@@ -18,28 +18,8 @@ class HomeView(ListView):
     paginate_by = 20
 
     def get_context_data(self, **kwargs):
-        # Retrieve jobs with 'open' status
-        jobs = Job.objects.filter(status='open')
-
-        # If user is authenticated, filter out jobs related to the user (likes and enrolled jobs)
-        if self.request.user.is_authenticated:
-            jobs_candidate_user = Job.objects.filter(candidate__user=self.request.user).values('pk')
-            jobs_liked_by_user = Job.objects.filter(likes=self.request.user).values('pk')
-            likes_list = [x['pk'] for x in jobs_liked_by_user]
-            jobs = jobs.exclude(pk__in=jobs_candidate_user)
-            kwargs['like_ids'] = likes_list
-
-        # Apply additional filters and set up pagination
-        filter_object = JobFilter(self.request.GET, queryset=jobs)
-        kwargs['filter_form'] = filter_object.form
-        paginator = Paginator(filter_object.qs, 50)
-        page_number = self.request.GET.get('page')
-        page_object = paginator.get_page(page_number)
-
-        # Add companies and paginated job list to context
         kwargs['companies'] = Company.objects.all()[:5]
-        kwargs['object_list'] = page_object
-
+        kwargs['object_list'] = Job.objects.filter(job_type='internship')[:5]
         return super().get_context_data(**kwargs)
 
 

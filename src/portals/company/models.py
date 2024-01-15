@@ -3,18 +3,35 @@ from django.db import models
 from src.accounts.models import User
 
 
+class Country(models.Model):
+    name = models.CharField(max_length=255)
+    short_name = models.CharField(max_length=3, null=True, blank=True, help_text="Short name of country like 'US', 'GB'")
+    phone_code = models.CharField(max_length=5, null=True, blank=True, help_text="Phone code of country like '+92', '+1'")
+    language = models.CharField(max_length=255, null=True, blank=True, help_text="Language of country like 'English', 'Urdu'")
+    currency = models.CharField(max_length=255, null=True, blank=True, help_text="Currency of country like 'USD', 'PKR'")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Countries"
+        ordering = ['name']
+
+
 class Company(models.Model):
-    TYPE_CHOICE = (
-        ('per', 'Personal'),
-        ('pre', 'Premium'),
-        ('ent', 'Enterprise'),
+    BUSINESS_TYPE = (
+        ('non profit', 'Non Profit'),
+        ('government', 'Government'),
+        ('small business', 'Small Business'),
+        ('medium business', 'Medium Business'),
+        ('enterprise', 'Enterprise'),
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, default="Name")
     tag_line = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    business_type = models.CharField(max_length=255, choices=TYPE_CHOICE, default='per')
+    business_type = models.CharField(max_length=255, choices=BUSINESS_TYPE, default='small business')
 
     logo = models.ImageField(upload_to='company_logo', null=True, blank=True)
     company_registration_no = models.CharField(max_length=255, null=True, blank=True)
@@ -23,6 +40,10 @@ class Company(models.Model):
     contact_number = models.CharField(max_length=20, null=True, blank=True)
     contact_email = models.CharField(max_length=255, null=True, blank=True)
     company_address = models.TextField(null=True, blank=True)
+
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=False)
+    is_active = models.BooleanField(default=True)
+    created_on = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
         verbose_name_plural = "Companies"
@@ -48,6 +69,13 @@ class Job(models.Model):
         ('open', 'Open'),
         ('close', 'Close')
     )
+    JOB_TYPE = (
+        ('full time', 'Full Time'),
+        ('part time', 'Part Time'),
+        ('remote', 'Remote'),
+        ('freelance', 'Freelance'),
+        ('internship', 'Internship'),
+    )
 
     title = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -62,6 +90,8 @@ class Job(models.Model):
     candidates = models.ManyToManyField(User, related_name='candidates', through='Candidate')
     status = models.CharField(max_length=5, choices=STATUS_CHOICE, default='o')
 
+    job_type = models.CharField(max_length=50, null=True, blank=True, default='internship', choices=JOB_TYPE)
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=False)
     is_active = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now=False, auto_now_add=True)
 
