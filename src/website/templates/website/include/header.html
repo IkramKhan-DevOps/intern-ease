@@ -8,15 +8,15 @@
         <a class="logo" href="/">
             <div class="block sm:hidden">
 
-                <img src="{{ app.logo|image_or_placeholder }}" class="h-10 inline-block dark:hidden" alt="">
-                <img src="{{ app.logo|image_or_placeholder }}" class="h-10 hidden dark:inline-block" alt="">
+                <img src="{% static 'images/logo.png' %}" class="h-10 inline-block dark:hidden" alt="">
+                <img src="{% static 'images/logo.png' %}" class="h-10 hidden dark:inline-block" alt="">
             </div>
             <div class="sm:block hidden">
                         <span class="inline-block dark:hidden">
-                                <img src="{{ app.logo|image_or_placeholder }}" class="h-[24px] l-dark" alt="">
-                                <img src="{{ app.logo|image_or_placeholder }}" class="h-[24px] l-light" alt="">
+                                <img src="{% static 'images/logo.png' %}" class="h-[24px] l-dark" alt="">
+                                <img src="{% static 'images/logo.png' %}" class="h-[24px] l-light" alt="">
                         </span>
-                <img src="{{ app.logo|image_or_placeholder }}" class="h-[24px] hidden dark:inline-block" alt="">
+                <img src="{% static 'images/logo.png' %}" class="h-[24px] hidden dark:inline-block" alt="">
             </div>
         </a>
 
@@ -39,11 +39,28 @@
                 <li><a href="{% url 'website:internship' %}" class="sub-menu-item">Internships</a></li>
                 <li><a href="{% url 'website:about' %}" class="sub-menu-item">About</a></li>
                 <li><a href="{% url 'website:contact' %}" class="sub-menu-item">Contact</a></li>
-{#                <li>#}
-{#                    <a href="{% url 'accounts:cross-auth-view' %}" class="sub-menu-item">#}
-{#                        {% if request.user.is_authenticated %}Dashboard{% else %}Login{% endif %}#}
-{#                    </a>#}
-{#                </li>#}
+                <li>
+                    <a href="{% url 'accounts:cross-auth-view' %}" class="sub-menu-item">
+                        {% if request.user.is_authenticated %}
+                            Dashboard
+                        {% else %}
+                            Login
+                        {% endif %}
+                    </a>
+                </li>
+            <li>
+                <div class="mt-4">
+                <a href="#"
+                                   class="btn rounded-md bg-emerald-600 hover:bg-emerald-700
+                                   border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">
+                                    Reviews</a>
+                </div>
+            </li>
+                {#                <li>#}
+                {#                    <a href="{% url 'accounts:cross-auth-view' %}" class="sub-menu-item">#}
+                {#                        {% if request.user.is_authenticated %}Dashboard{% else %}Login{% endif %}#}
+                {#                    </a>#}
+                {#                </li>#}
             </ul>
         </div>
     </div>

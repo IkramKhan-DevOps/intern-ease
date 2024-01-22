@@ -88,7 +88,7 @@ class Job(models.Model):
     end_time = models.DateTimeField(null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='likes')
     candidates = models.ManyToManyField(User, related_name='candidates', through='Candidate')
-    status = models.CharField(max_length=5, choices=STATUS_CHOICE, default='o')
+    status = models.CharField(max_length=5, choices=STATUS_CHOICE, default='open')
 
     job_type = models.CharField(max_length=50, null=True, blank=True, default='internship', choices=JOB_TYPE)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=False)

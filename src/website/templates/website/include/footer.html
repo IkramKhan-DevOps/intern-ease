@@ -11,7 +11,7 @@
 
                         <div class="md:col-span-3">
                             <a href="/" class="flex justify-center md:justify-start focus:outline-none">
-                                <img src="{{ app.logo|image_or_placeholder }}" class="" alt="">
+                                <img src="{% static 'images/logo.png' %}" style="height:100px;" class="" alt="">
                             </a>
                         </div>
 
@@ -22,19 +22,16 @@
                                        class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">Home</a>
                                 </li>
                                 <li class="inline-block mt-[10px] md:mt-0">
-                                    <a href="/"
-                                       class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">How
-                                        it works</a>
-                                </li>
-                                <li class="inline-block mt-[10px] md:mt-0">
-                                    <a href="/"
-                                       class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">Create
-                                        a account</a>
+                                    <a href="{% url 'accounts:cross-auth-view' %}"
+                                       class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">
+                                        Login
+                                    </a>
                                 </li>
                                 <li class="inline-block mt-[10px] md:mt-0">
                                     <a href="{% url 'website:about' %}"
                                        class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">About
-                                        us</a>
+                                        us
+                                    </a>
                                 </li>
                                 <li class="inline-block mt-[10px] md:mt-0">
                                     <a href="{% url 'website:contact' %}"

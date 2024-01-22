@@ -5,13 +5,13 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # Model for storing application details
 class Application(models.Model):
-    name = models.CharField(max_length=100, help_text='Application name', default='Exarth')
-    short_name = models.CharField(max_length=10, help_text='Your application short name', default='EX')
+    name = models.CharField(max_length=100, help_text='Application name', default='Intern Ease')
+    short_name = models.CharField(max_length=10, help_text='Your application short name', default='EE')
     tagline = models.CharField(
-        max_length=100, help_text='Your application business line', default='Your digital partner'
+        max_length=100, help_text='Your application business line', default='Empowering Futures through Collaboration'
     )
     description = models.TextField(
-        default="Your technology partner in innovations, automation and business intelligence.",
+        default="Connect companies offering enriching internships with aspiring students seeking valuable experiences",
         help_text='Application description'
     )
 
@@ -30,26 +30,26 @@ class Application(models.Model):
     )
 
     contact_email1 = models.EmailField(
-        max_length=100, default='support@exarth.com', help_text='Application contact email 1'
+        max_length=100, default='support@internease.com', help_text='Application contact email 1'
     )
     contact_email2 = models.EmailField(
-        max_length=100, default='support@exarth.com', help_text='Application contact email 2'
+        max_length=100, default='support@internease.com', help_text='Application contact email 2'
     )
     contact_phone1 = PhoneNumberField(
-        help_text='Application contact phone 1', default='+923419387283'
+        help_text='Application contact phone 1', default='+10000000000'
     )
     contact_phone2 = PhoneNumberField(
-        help_text='Application contact phone 2', default='+923259575875'
+        help_text='Application contact phone 2', default='+10000000000'
     )
 
     address = models.CharField(
-        max_length=255, help_text='Office address', default='123 Main St, Abbotabad, KPK Pakistan'
+        max_length=255, help_text='Office address', default='XYZ, City, Country'
     )
     latitude = models.DecimalField(max_digits=10, decimal_places=6, help_text='Latitude', default=23.7)
     longitude = models.DecimalField(max_digits=10, decimal_places=6, help_text='Longitude', default=90.3)
 
     terms_url = models.URLField(
-        max_length=255, default='https://exarth.com/terms-of-use/', help_text='Terms and Conditions page link'
+        max_length=255, default='https://internease.com/terms-of-use/', help_text='Terms and Conditions page link'
     )
 
     version = models.CharField(max_length=10, help_text='Current version', default='1.0.0')

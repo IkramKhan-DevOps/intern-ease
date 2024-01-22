@@ -16,7 +16,7 @@
                             <h5 class="text-xl font-semibold">{{ object.name }}</h5>
                             <div class="mt-1">
                                <span class="text-slate-400 font-medium me-2 inline-block"><i
-                                        class="uil uil-map-marker text-[18px] text-emerald-600 me-1"></i>{{ object.company_address }}</span>
+                                       class="uil uil-map-marker text-[18px] text-emerald-600 me-1"></i>{{ object.company_address }}</span>
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                                 <span class="text-emerald-600 font-medium text-sm">{{ object.contact_number }}</span>
                             </div>
                         </li>
-                             <li class="inline-flex items-center py-2 px-4 bg-white me-2 my-1 shadow dark:shadow-gray-700 rounded-md">
+                        <li class="inline-flex items-center py-2 px-4 bg-white me-2 my-1 shadow dark:shadow-gray-700 rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-mail h-5 w-5">
@@ -129,22 +129,22 @@
             </div><!--end grid-->
 
             <div class="grid lg:grid-cols-3 md:grid-cols-2 mt-8 gap-[30px]">
-                {% for object in companies %}
-                    <div class="p-3 rounded shadow dark:shadow-gray-700 bg-slate-50 dark:bg-slate-800">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                                <img src="{{ object.logo | image_or_placeholder }}" class="h-8 w-8"
-                                     alt="">
-                            </div>
+                {% if not internships %}
+                    <p class="text-danger"><b>No Vacancy Available</b></p>
+                {% else %}
+                    {% for object in internships %}
+                        <div class="p-3 rounded shadow dark:shadow-gray-700 bg-slate-50 dark:bg-slate-800">
+                            <div class="flex items-center">
 
-                            <div class="ms-3">
-                                <a href="employer-detail.html"
-                                   class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{ object.name }}</a>
-                                <span class="block text-sm text-emerald-600">20 Vacancy</span>
+                                <div class="ms-3">
+                                    <a href="{% url 'website:internship-details' object.id %}"
+                                       class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{ object.title }}</a>
+                                    <span class="block text-sm text-emerald-600">{{ object.vacancy }} Vacancy</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
 

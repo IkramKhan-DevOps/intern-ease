@@ -1,4 +1,4 @@
-/* Template Name: Jobstack - Job Portal Tailwind CSS Template
+/* Template Name: InternEase - Job Portal Tailwind CSS Template
    Author: Shreethemes
    Email: support@shreethemes.in
    Website: https://shreethemes.in

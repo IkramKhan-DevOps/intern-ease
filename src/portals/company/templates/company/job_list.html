@@ -2,14 +2,14 @@
 {% load static %}
 {% load custom_tags %}
 
-{% block base_title %} Jobs {% endblock %}
-{% block page_heading %} Jobs {% endblock %}
+{% block base_title %} internships {% endblock %}
+{% block page_heading %} internships {% endblock %}
 
 {% block content %}
 
     <div class="row mb-2">
         <div class="col-12">
-            <a href="{% url 'company:job-add' %}" class="btn btn-primary"> Post Job</a>
+            <a href="{% url 'company:job-add' %}" class="btn btn-primary"> Post internship</a>
         </div>
     </div>
 
@@ -66,9 +66,9 @@
                                         <td>
 
                                                 {% if object.status == 'o' %}
-                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-danger">Close Job</a>
+                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-danger">Close internship</a>
                                                 {% else %}
-                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-success">Open Job</a>
+                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-success">Open internship</a>
                                                 {% endif %}
                                             </a>
                                         </td>
@@ -89,7 +89,7 @@
 
                     {% else %}
                         <p class="text-danger">
-                            <b><i class="fa fa-exclamation-circle"></i> No jobs found.</b>
+                            <b><i class="fa fa-exclamation-circle"></i> No internships found.</b>
                         </p>
                     {% endif %}
 

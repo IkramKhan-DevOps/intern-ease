@@ -151,7 +151,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "donald.duck0762@gmail.com"
 EMAIL_HOST_PASSWORD = "ldffqlzcmycujcxu"
 EMAIL_PORT = "587"
-DEFAULT_FROM_EMAIL = 'support@fldai.org'
+DEFAULT_FROM_EMAIL = 'support@internease.com'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {'SCOPE': ['profile', 'email', ],

@@ -1,10 +1,8 @@
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView
 
-from src.portals.company.filters import JobFilter
 from src.portals.company.models import Job, Company
 from src.website.forms import ContactForm
 
@@ -68,7 +66,7 @@ class InternshipDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         # Add additional context data for displaying related internships
         context = super().get_context_data()
-        context['internships'] = Job.objects.all()[:3]
+        context['internships'] = Job.objects.filter(status='o', company=self.object.company)[:3]
         return context
 
 
@@ -92,7 +90,8 @@ class CompanyDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         # Add additional context data for displaying related companies
         context = super().get_context_data()
-        context['companies'] = Company.objects.all()[:3]
+        context['internships'] = Job.objects.filter(company=self.object)[:3]
+
         return context
 
 

@@ -171,10 +171,10 @@ def main():
         delete_all()
 
     if command_add:
-        add_fake_countries()
-        add_fake_users()
-        add_fake_companies()
-        add_fake_categories()
+        # add_fake_countries()
+        # add_fake_users()
+        # add_fake_companies()
+        # add_fake_categories()
         add_fake_jobs()
 
 

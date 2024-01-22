@@ -14,7 +14,7 @@
                             <i class="bx bx-user-check h2 text-primary mb-0"></i>
                         </div>
                         <div class="media-body">
-                            <p class="text-muted mb-2">Total Jobs</p>
+                            <p class="text-muted mb-2">Total internships</p>
                             <h5 class="mb-0">
                                 {{ jobs_all_count }}
                             </h5>
@@ -80,7 +80,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="border-bottom card-body">
-                    <p class="card-title mb-0">Your jobs</p>
+                    <p class="card-title mb-0">Your internships</p>
                 </div>
                 <div class="card-body">
                     {% if jobs %}
@@ -131,9 +131,9 @@
                                         <td>
 
                                                 {% if object.status == 'o' %}
-                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-danger">Close Job</a>
+                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-danger">Close internship</a>
                                                 {% else %}
-                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-success">Open Job</a>
+                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-success">Open internship</a>
                                                 {% endif %}
                                             </a>
                                         </td>
@@ -154,7 +154,7 @@
 
                     {% else %}
                         <p class="text-danger">
-                            <b><i class="fa fa-exclamation-circle"></i> No jobs found.</b>
+                            <b><i class="fa fa-exclamation-circle"></i> No internships found.</b>
                         </p>
                     {% endif %}
 
