@@ -1,4 +1,5 @@
 {% extends 'website/base.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
 {% load custom_tags %}
 
@@ -27,32 +28,57 @@
 
         {# SEARCH FILTER #}
       <div class="container z-1">
-    <div class="d-flex" id="reserve-form">
-        <div class="md:w-5/6 mx-auto">
-            <div class="lg:col-span-10">
-                <div class="bg-white dark:bg-slate-900 border-0 shadow rounded-md p-3">
-                    <form action="" method="get">
-                        {% csrf_token %}
-                        <div class="registration-form text-dark text-start">
-                            <div class="grid lg:grid-cols-6 md:grid-cols-2 grid-cols-1 lg:gap-0 gap-6">
-                                <div class="filter-search-form relative filter-border col-span-2 lg:col-span-3">
-                                    <i class="uil uil-briefcase-alt icons"></i>
-                                    <input name="name" type="text" id="job-keyword"
-                                           class="form-input filter-input-box bg-gray-50 dark:bg-slate-800 border-0"
-                                           placeholder="Search by Name">
-                                </div>
+            <div class="grid grid-cols-1 gap-[30px]">
+                <div class="card">
+                    <div class="full-search-2 mt-5">
+                        <div class="hero-search-content search-shadow">
+                            <form method="get">
 
-                                <div class="">
-                                    <input type="submit" id="search" name="search" style="height: 60px;" class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white searchbtn submit-btn w-full" value="Search">
+                                <div class="row classic-search-box  m-0 gx-2">
+
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            {{ form.name.label }}
+                                            {{ form.name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-2 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            {{ form.company_registration_no.label }}
+                                            {{ form.company_registration_no }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            <div class="input-with-icon">
+                                                {{ form.business_type.label }}
+                                                {{ form.business_type }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-3 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            <div class="input-with-icon">
+                                                {{ form.company_address.label }}
+                                                {{ form.company_address }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 ">
+                                        <button type="submit" style="margin-top: 25px" class="btn rounded-md bg-emerald-600 hover:bg-emerald-700
+                                   border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">
+                                            search
+                                        </button>
+                                    </div>
+
                                 </div>
-                            </div><!--end grid-->
-                        </div><!--end container-->
-                    </form>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div><!--ed col-->
+
+            </div><!--end grid-->
         </div>
-    </div><!--end grid-->
-</div>
 
         {# COMPANY LIST #}
         <div class="container mt-10">
@@ -76,19 +102,19 @@
                             </div>
 
                             <div class="mt-6">
-                                <h6 class="text-base font-medium"><i class="uil uil-map-marker"></i> {{ object.company_address }}</h6>
+                                <h6 class="text-base font-medium"><i
+                                        class="uil uil-map-marker"></i> {{ object.company_address }}</h6>
                             </div>
 
                             <div class="mt-6">
                                 <div class="mt-2">
                             <span class="text-slate-400 text-sm"><span
-                                    class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40 vacancy</span>
+                                    class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> </span>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 {% endif %}
-
             </div>
 
         </div>

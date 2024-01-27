@@ -6,7 +6,6 @@ class User(AbstractUser):
     GENDER_CHOICE = (
         ('m', 'Male'),
         ('f', 'Female'),
-        ('o', 'Other'),
     )
 
     is_customer = models.BooleanField(default=False, help_text="This account belongs to customer")

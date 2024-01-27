@@ -1,4 +1,5 @@
 {% extends 'website/base.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
 {% load custom_tags %}
 
@@ -9,7 +10,8 @@
         <div class="absolute inset-0 bg-emerald-900/90"></div>
         <div class="container">
             <div class="grid grid-cols-1 text-center mt-10">
-                <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">Internship
+                <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">
+                    Internship
                     Vacancies</h3>
             </div>
         </div>
@@ -29,31 +31,86 @@
         {# Search Filter #}
 
         <div class="container z-1">
-            <div class="d-flex" id="reserve-form">
-                <div class="md:w-5/6 mx-auto">
-                    <div class="lg:col-span-10">
-                        <div class="bg-white dark:bg-slate-900 border-0 shadow rounded-md p-3">
-                            <form action="" method="get">
-                        {% csrf_token %}
-                        <div class="registration-form text-dark text-start">
-                            <div class="grid lg:grid-cols-6 md:grid-cols-2 grid-cols-1 lg:gap-0 gap-6">
-                                <div class="filter-search-form relative filter-border col-span-2 lg:col-span-3">
-                                    <i class="uil uil-briefcase-alt icons"></i>
-                                    <input name="name" type="text" id="job-keyword"
-                                           class="form-input filter-input-box bg-gray-50 dark:bg-slate-800 border-0"
-                                           placeholder="Search by Title">
-                                </div>
+            <div class="grid grid-cols-1 gap-[30px]">
+                <div class="card">
+                    <div class="full-search-2 mt-5">
+                        <div class="hero-search-content search-shadow">
+                            <form method="get">
 
-                                <div class="">
-                                    <input type="submit" id="search" name="search" style="height: 60px;" class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white searchbtn submit-btn w-full" value="Search">
+                                <div class="row classic-search-box m-0 gx-2">
+
+                                    <div class="col-xl-3 col-lg-2 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            {{ form.title.label }}
+                                            {{ form.title }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-2 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            {{ form.company__name.label }}
+                                            {{ form.company__name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            <div class="input-with-icon">
+                                                {{ form.category.label }}
+                                                {{ form.category }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            <div class="input-with-icon">
+                                                {{ form.status.label }}
+                                                {{ form.status }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            <div class="input-with-icon">
+                                                {{ form.country.label }}
+                                                {{ form.country }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            <div class="input-with-icon">
+                                                {{ form.country.label }}
+                                                {{ form.job_type }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            {{ form.start_time.label }}
+                                            {{ form.start_time }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <div class="form-group briod">
+                                            <div class="input-with-icon">
+                                                {{ form.end_time.label }}
+                                                {{ form.end_time }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 ">
+                                        <button type="submit" style="margin-top: 25px" class="btn rounded-md bg-emerald-600 hover:bg-emerald-700
+                                   border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">
+                                            search
+                                        </button>
+                                    </div>
+
                                 </div>
-                            </div><!--end grid-->
-                        </div><!--end container-->
-                    </form>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
+
+            </div><!--end grid-->
         </div>
 
         {# internship LIST #}
