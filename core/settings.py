@@ -170,10 +170,10 @@ LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Make sure to remove this in live server - use it on local server
-# if ENVIRONMENT != 'server':
-#     INSTALLED_APPS += [
-#         'django_browser_reload'
-#     ]
-#     MIDDLEWARE += [
-#         'django_browser_reload.middleware.BrowserReloadMiddleware'
-#     ]
+if ENVIRONMENT != 'server':
+    INSTALLED_APPS += [
+        'django_browser_reload'
+    ]
+    MIDDLEWARE += [
+        'django_browser_reload.middleware.BrowserReloadMiddleware'
+    ]

@@ -3,13 +3,14 @@
 {% load custom_tags %}
 
 {% block base_title %} internships {% endblock %}
-{% block page_heading %} internships {% endblock %}
 
 {% block content %}
 
-    <div class="row mb-2">
+    <div class="row mb-4 text-right">
         <div class="col-12">
-            <a href="{% url 'company:job-add' %}" class="btn btn-primary"> Post internship</a>
+            <a href="{% url 'company:job-add' %}" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Open Internship
+            </a>
         </div>
     </div>
 
@@ -27,9 +28,8 @@
                                     <th scope="col">Title</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Created On</th>
-                                    <th scope="col">Likes</th>
+                                    <th scope="col">Reviews</th>
                                     <th scope="col">Candidates</th>
-                                    <th scope="col">Open/Close</th>
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
@@ -43,7 +43,7 @@
                                             <p class="mb-0 small">{{ object.category }}</p>
                                         </td>
                                         <td>
-                                            {% if object.status == 'o' %}
+                                            {% if object.status == 'open' %}
                                                 <b class="text-success">
                                                     <i class="fa fa-check-circle"></i> Open
                                                 </b>
@@ -55,22 +55,13 @@
                                         </td>
                                         <td>{{ object.created_on }}</td>
                                         <td>
-                                            <a href="{% url 'company:job-add' %}"><b><i class="fa fa-thumbs-up"></i>
+                                            <a href="#"><b><i class="fa fa-thumbs-up"></i>
                                                 View ({{ object.likes.count }})</b></a>
                                         </td>
                                         <td>
                                             <a href="{% url 'company:candidate-list' object.pk %}"><b><i
                                                     class="fa fa-users"></i> View
                                                 ({{ object.candidates.count }})</b></a>
-                                        </td>
-                                        <td>
-
-                                                {% if object.status == 'o' %}
-                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-danger">Close internship</a>
-                                                {% else %}
-                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-success">Open internship</a>
-                                                {% endif %}
-                                            </a>
                                         </td>
                                         <td>
                                             <a href="{% url 'company:job-update' object.pk %}">
@@ -88,17 +79,12 @@
                         </div>
 
                     {% else %}
-                        <p class="text-danger">
+                        <p class="text-danger mb-0">
                             <b><i class="fa fa-exclamation-circle"></i> No internships found.</b>
                         </p>
                     {% endif %}
 
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <a href="{% url 'company:dashboard' %}"
-                   class="btn text-muted d-none d-sm-inline-block btn-link">
-                    <i class="mdi mdi-arrow-left mr-1"></i> Dashboard </a>
             </div>
         </div>
     </div>

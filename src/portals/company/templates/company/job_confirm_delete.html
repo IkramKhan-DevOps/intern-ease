@@ -3,22 +3,24 @@
 {% load crispy_forms_tags %}
 
 {% block base_title %} Delete {{ object.title }} {% endblock %}
-{% block page_heading %} Delete {{ object.title }} {% endblock %}
 
 {% block content %}
 
-    <div class="checkout-tabs">
-        <form method="post">
-            <div class="row">
-
-                <div class="col-6">
-                    <div class="card">
+            <div class="row justify-content-center">
+                <div class="col-8">
+                    <div class="card p-4">
                         <div class="card-body">
-                            <form method="post">{% csrf_token %}
-                                <p class="mb-2">Are you sure you want to delete
-                                    <b class="text-danger">"{{ object.topic }}"</b>
-                                    ?</p>
-                                <input type="submit" class="btn btn-danger" value="Confirm">
+                            <form method="post">
+                                {% csrf_token %}
+                                <h1 class="text-danger">
+                                    Remove <b class="text-danger">"{{ object.topic }}"</b>
+                                </h1>
+                                <h5 class="mb-4">
+                                    Are you sure you want to delete this internship? This action cannot be undone.
+                                </h5>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i> Remove
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -26,7 +28,5 @@
 
 
             </div>
-        </form>
-    </div>
 
 {% endblock %}

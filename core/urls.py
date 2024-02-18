@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
 
-from .settings import MEDIA_ROOT, STATIC_ROOT
+from .settings import MEDIA_ROOT, STATIC_ROOT, ENVIRONMENT
 
 urlpatterns = [
     # REQUIRED --------------------------------------------------------- #
@@ -23,7 +23,7 @@ urlpatterns += [
 ]
 
 """ DEVELOPMENT ONLY -------------------------------------------------------------------------------------------- """
-# if ENVIRONMENT != 'server':
-#     urlpatterns += [
-#         path("__reload__/", include("django_browser_reload.urls"))
-#     ]
+if ENVIRONMENT != 'server':
+    urlpatterns += [
+        path("__reload__/", include("django_browser_reload.urls"))
+    ]

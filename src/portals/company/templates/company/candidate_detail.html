@@ -6,179 +6,189 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a class="text-primary" href="{% url 'company:candidate-list' object.job.id %}">
+                <b>
+                    <i class="mdi mdi-arrow-left"></i> back to candidates
+                </b>
+            </a>
+        </div>
+    </div>
 
-                {# IMAGE DIV #}
-                <div class="text-center">
-                    {% if object.user.profile_image %}
-                    <img class="rounded-circle" src="{{ object.user.profile_image.url }}" height="150px"
-                         alt="user-image">
-                    {% else %}
-                    <img class="rounded-circle" src="{% static 'core/images/logo_100.png' %}"
-                         height="150px" alt="no-user-image">
-                    {% endif %}
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
 
-                {# NAME AND OTHER #}
-                <div class="text-center mt-2">
-                    <h5 class="mb-0">{{ object.user.get_full_name }}
-                        {% if object.user.is_active %}
-                        <i class="fa fa-check-circle text-success"></i>
+                    {# IMAGE DIV #}
+                    <div class="text-center">
+                        {% if object.user.profile_image %}
+                            <img class="rounded-circle" src="{{ object.user.profile_image.url }}" height="150px"
+                                 alt="user-image">
+                        {% else %}
+                            <img class="rounded-circle" src="{% static 'core/images/logo_100.png' %}"
+                                 height="150px" alt="no-user-image">
                         {% endif %}
-                    </h5>
-                    <p class="fw-light text-muted mb-0">( {{ object.user.username }} )</p>
-                </div>
+                    </div>
 
-                <div class="row mt-4">
-                    <div class="col">
-                        <p class="mb-0 text-center h3"><i class="mdi mdi-email"></i></p>
-                        <p class="mb-0 text-center h5">Email</p>
-                        <p class="mb-0 text-center">{{ object.user.email }}</p>
-                    </div>
-                    <div class="col">
-                        <p class="mb-0 text-center h3"><i class="mdi mdi-phone"></i></p>
-                        <p class="mb-0 text-center h5">Phone</p>
-                        <p class="mb-0 text-center">{{ object.user.phone_number }}</p>
-                    </div>
-                    <div class="col text-center">
-                        <p class="mb-0 text-center h3"><i class="mdi mdi-gender-male-female"></i></p>
-                        <p class="mb-0 text-center h5">Gender</p>
-                        <p class="mb-0 text-center">{{ object.user.gender }}</p>
-                    </div>
-                    <div class="col">
-                        <p class="mb-0 text-center h3"><i class="fa fa-briefcase"></i></p>
-                        <p class="mb-0 text-center h5">internship</p>
-                        <p class="mb-0 text-center">{{ object.job.title }}</p>
-                    </div>
-                    <div class="col">
-                        <p class="mb-0 text-center h3"><i class="fa fa-briefcase"></i></p>
-                        <p class="mb-0 text-center h5">Status</p>
-                        <p class="mb-0 text-center">
-                            <b>
-                                {% if object.status == 'acc' %}
+                    {# NAME AND OTHER #}
+                    <div class="text-center mt-2">
+                        <h5 class="mb-0">{{ object.user.get_full_name }}
+                            {% if object.user.is_active %}
                                 <i class="fa fa-check-circle text-success"></i>
-                                {% elif object.status == 'pen' %}
-                                <i class="fa fa-exclamation-circle text-warning"></i>
-                                {% elif object.status == 'rej' %}
-                                <i class="fa fa-times text-warning"></i>
-                                {% else %}
-                                <i class="fa fa-clock text-primary"></i>
-                                {% endif %}
-                                {{ object.get_status_display }}
-                            </b>
-                        </p>
+                            {% endif %}
+                        </h5>
+                        <p class="fw-light text-muted mb-0">( {{ object.user.username }} )</p>
                     </div>
-                </div>
 
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-8">
-
-        <div class="card">
-            <div class="card-body border-bottom">
-                <p class="mb-0 card-title">Candidate Information</p>
-                <p class="mb-0 card-title-desc">Candidate personal, professional and educational information</p>
-            </div>
-            <div class="card-body">
-    <ul class="list-group p-4">
-        <h6><li > Candidate Degree     : {{object.degree}}</li></h6>
-        <h6><li > Candidate Experience : {{object.experience}}</li></h6>
-        <h6><li > Previous Company     : {{object.previous_company}}</li></h6><hr>
-        <h6>{{object.about}}</h6>
-        <a href="{{object.cv.url}}">Download Cv</a>
-    </ul>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-4">
-        <div class="card">
-            <div class="card-body border-bottom">
-                <p class="mb-0 card-title">Status</p>
-                <p class="mb-0 card-title-desc">Candidate application current status is
-                    (<b>{{ object.get_status_display }}</b>)</p>
-            </div>
-            <div class="card-body">
-                {% if object.status != 'rej' %}
-
-                {% if object.status == 'app' %}
-                <a class="btn btn-warning"
-                   href="{% url 'company:candidate-status-update' object.job.pk object.pk 'pen' %}">
-                    <i class="fa fa-clock"></i> Add To Short List
-                </a>
-                {% elif object.status == 'pen' %}
-                <a class="btn btn-success"
-                   href="{% url 'company:candidate-status-update' object.job.pk object.pk 'acc' %}">
-                    <i class="fa fa-check-circle"></i> Hire Now
-                </a>
-                {% else %}
-                <a class="btn btn-danger"
-                   href="{% url 'company:candidate-status-update' object.job.pk object.pk 'app' %}">
-                    <i class="fa fa-trash"></i> Cancel
-                </a>
-                {% endif %}
-                {% endif %}
-                {% if object.status != 'rej' %}
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                        data-whatever="@getbootstrap">Reject
-                </button>
-                {% endif %}
-
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form method="POST"
-                                  action="{% url 'company:candidate-status-delete' object.job.pk object.pk  %}">
-
-                                <div class="modal-body">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Message:</label>
-                                        <textarea class="form-control" name="message" id="message-text"></textarea>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Send message</button>
-                                </div>
-                            </form>
-
+                    <div class="row mt-4">
+                        <div class="col">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-email"></i></p>
+                            <p class="mb-0 text-center h5">Email</p>
+                            <p class="mb-0 text-center">{{ object.user.email }}</p>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-phone"></i></p>
+                            <p class="mb-0 text-center h5">Phone</p>
+                            <p class="mb-0 text-center">{{ object.user.phone_number }}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-gender-male-female"></i></p>
+                            <p class="mb-0 text-center h5">Gender</p>
+                            <p class="mb-0 text-center">{{ object.user.get_gender_display }}</p>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 text-center h3"><i class="fa fa-briefcase"></i></p>
+                            <p class="mb-0 text-center h5">internship</p>
+                            <p class="mb-0 text-center">{{ object.job.title }}</p>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 text-center h3"><i class="fa fa-briefcase"></i></p>
+                            <p class="mb-0 text-center h5">Status</p>
+                            <p class="mb-0 text-center">
+                                <b>
+                                    {% if object.status == 'acc' %}
+                                        <i class="fa fa-check-circle text-success"></i>
+                                    {% elif object.status == 'pen' %}
+                                        <i class="fa fa-exclamation-circle text-warning"></i>
+                                    {% elif object.status == 'rej' %}
+                                        <i class="fa fa-times text-warning"></i>
+                                    {% else %}
+                                        <i class="fa fa-clock text-primary"></i>
+                                    {% endif %}
+                                    {{ object.get_status_display }}
+                                </b>
+                            </p>
                         </div>
                     </div>
+
                 </div>
-                {% if object.status == 'rej' %}
-                <a class="btn btn-danger disabled">
-                    <i class="fa fa-trash"></i> Rejected
-                </a>
-                {% endif %}
-
-
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-12">
-        <a href="{% url 'company:candidate-list' object.job.pk %}"><b><i class="fa fa-arrow-left"></i></b> Back to
-            Candidates</a>
+    <div class="row">
+        <div class="col-8">
+
+            <div class="card">
+                <div class="card-body border-bottom">
+                    <p class="mb-0 card-title">Candidate Information</p>
+                    <p class="mb-0 card-title-desc">Candidate personal, professional and educational information</p>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group p-4">
+                        <h6>
+                            <li> Candidate Degree : {{ object.degree }}</li>
+                        </h6>
+                        <h6>
+                            <li> Candidate Experience : {{ object.experience }}</li>
+                        </h6>
+                        <h6>
+                            <li> Previous Company : {{ object.previous_company }}</li>
+                        </h6>
+                        <h6>{{ object.about }}</h6>
+                        <a href="#">Download Cv</a>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body border-bottom">
+                    <p class="mb-0 card-title">Status</p>
+                    <p class="mb-0 card-title-desc">Candidate application current status is
+                        (<b>{{ object.get_status_display }}</b>)</p>
+                </div>
+                <div class="card-body">
+                    {% if object.status != 'rej' %}
+
+                        {% if object.status == 'app' %}
+                            <a class="btn btn-warning"
+                               href="{% url 'company:candidate-status-update' object.job.pk object.pk 'pen' %}">
+                                <i class="fa fa-clock"></i> Add To Short List
+                            </a>
+                        {% elif object.status == 'pen' %}
+                            <a class="btn btn-success"
+                               href="{% url 'company:candidate-status-update' object.job.pk object.pk 'acc' %}">
+                                <i class="fa fa-check-circle"></i> Hire Now
+                            </a>
+                        {% else %}
+                            <a class="btn btn-danger"
+                               href="{% url 'company:candidate-status-update' object.job.pk object.pk 'app' %}">
+                                <i class="fa fa-trash"></i> Cancel
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    {% if object.status != 'rej' %}
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                                data-whatever="@getbootstrap">Reject
+                        </button>
+                    {% endif %}
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Candidate Reject Form!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="POST"
+                                      action="{% url 'company:candidate-status-delete' object.job.pk object.pk %}">
+
+                                    <div class="modal-body">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Message:</label>
+                                            <textarea class="form-control" name="message" id="message-text"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Send message</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% if object.status == 'rej' %}
+                        <a class="btn btn-danger disabled">
+                            <i class="fa fa-trash"></i> Rejected
+                        </a>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
 {% endblock %}

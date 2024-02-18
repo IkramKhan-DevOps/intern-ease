@@ -6,7 +6,7 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -51,23 +51,6 @@
                             <p class="text-muted mb-2">Closed</p>
                             <h5 class="mb-0">
                                 {{ jobs_close_count }}
-                            </h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card mini-stats-wid">
-                <div class="card-body">
-                    <div class="media">
-                        <div class="mr-3 align-self-center">
-                            <i class="bx bxl-telegram h2 text-primary mb-0"></i>
-                        </div>
-                        <div class="media-body">
-                            <p class="text-muted mb-2">-</p>
-                            <h5 class="mb-0">
-                                00
                             </h5>
                         </div>
                     </div>
@@ -94,7 +77,6 @@
                                     <th scope="col">Created On</th>
                                     <th scope="col">Likes</th>
                                     <th scope="col">Candidates</th>
-                                    <th scope="col">Open/Close</th>
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
@@ -108,7 +90,8 @@
                                             <p class="mb-0 small">{{ object.category }}</p>
                                         </td>
                                         <td>
-                                            {% if object.status == 'o' %}
+
+                                            {% if object.status == 'open' %}
                                                 <b class="text-success">
                                                     <i class="fa fa-check-circle"></i> Open
                                                 </b>
@@ -117,25 +100,18 @@
                                                     <i class="fa fa-times-circle"></i> Closed
                                                 </b>
                                             {% endif %}
+
                                         </td>
                                         <td>{{ object.created_on }}</td>
                                         <td>
-                                            <a href="{% url 'company:job-likes-list' object.pk %}"><b><i class="fa fa-thumbs-up"></i>
+                                            <a href="{% url 'company:job-likes-list' object.pk %}"><b><i
+                                                    class="fa fa-thumbs-up"></i>
                                                 View ({{ object.likes.count }})</b></a>
                                         </td>
                                         <td>
                                             <a href="{% url 'company:candidate-list' object.pk %}"><b><i
                                                     class="fa fa-users"></i> View
                                                 ({{ object.candidates.count }})</b></a>
-                                        </td>
-                                        <td>
-
-                                                {% if object.status == 'o' %}
-                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-danger">Close internship</a>
-                                                {% else %}
-                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-success">Open internship</a>
-                                                {% endif %}
-                                            </a>
                                         </td>
                                         <td>
                                             <a href="{% url 'company:job-update' object.pk %}">

@@ -31,15 +31,17 @@ class Company(models.Model):
     name = models.CharField(max_length=255, default="Name")
     tag_line = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    business_type = models.CharField(max_length=255, choices=BUSINESS_TYPE, default='small business')
+    business_type = models.CharField(
+        max_length=255, choices=BUSINESS_TYPE, default='small business', verbose_name='Company Type'
+    )
 
     logo = models.ImageField(upload_to='company_logo', null=True, blank=True)
     company_registration_no = models.CharField(max_length=255, null=True, blank=True)
     company_start_date = models.DateTimeField(verbose_name='Date started', null=True, blank=True)
 
-    contact_number = models.CharField(max_length=20, null=True, blank=True)
-    contact_email = models.CharField(max_length=255, null=True, blank=True)
-    company_address = models.TextField(null=True, blank=True)
+    contact_number = models.CharField(max_length=20, null=True, blank=True, verbose_name='Phone')
+    contact_email = models.CharField(max_length=255, null=True, blank=True, verbose_name='Email')
+    company_address = models.TextField(null=True, blank=True, verbose_name='Address')
 
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=False)
     is_active = models.BooleanField(default=True)
@@ -97,12 +99,11 @@ class Job(models.Model):
 
     class Meta:
         ordering = ['-pk']
+        verbose_name = "InternShip"
+        verbose_name_plural = "InternShips"
 
     def __str__(self):
         return self.title
-
-    class Meta:
-        verbose_name = "InternShip"
 
 
 # CANDIDATE

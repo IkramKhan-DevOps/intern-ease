@@ -9,6 +9,7 @@ from src.portals.company.bll import get_user_company_bll
 from .models import Job, Company, Candidate
 
 
+# VERIFIED : TESTED
 @method_decorator(company_required, name='dispatch')
 class DashboardView(TemplateView):
     template_name = 'company/dashboard.html'
@@ -23,24 +24,24 @@ class DashboardView(TemplateView):
         return context
 
 
+# VERIFIED : TESTED
 @method_decorator(company_required, name='dispatch')
 class CompanyUpdateView(UpdateView):
     model = Company
     fields = [
-        'name', 'tag_line', 'description',
-        'business_type', 'company_registration_no',
-        'contact_number', 'company_start_date',
+        'name', 'business_type', 'tag_line', 'description', 'contact_number',
         'contact_email', 'company_address'
-
     ]
 
     def get_success_url(self):
+        messages.success(self.request, 'Company Profile Updated Successfully.')
         return reverse_lazy('company:company-update')
 
     def get_object(self, queryset=None):
         return get_user_company_bll(self.request.user)
 
 
+# VERIFIED : TESTED
 @method_decorator(company_required, name='dispatch')
 class JobListView(ListView):
     model = Job
@@ -49,6 +50,7 @@ class JobListView(ListView):
         return Job.objects.filter(company__user=self.request.user).exclude()
 
 
+# VERIFIED : TESTED
 @method_decorator(company_required, name='dispatch')
 class JobCreateView(CreateView):
     model = Job
@@ -63,7 +65,7 @@ class JobCreateView(CreateView):
 @method_decorator(company_required, name='dispatch')
 class JobUpdateView(UpdateView):
     model = Job
-    fields = ['title', 'category','vacancy','description', 'status']
+    fields = ['title', 'category', 'vacancy', 'description', 'status']
     success_url = reverse_lazy('company:job-list')
 
     def get_object(self, queryset=None):
@@ -90,8 +92,19 @@ class JobDeleteView(DeleteView):
 @method_decorator(company_required, name='dispatch')
 class CandidateListView(ListView):
 
+    def dispatch(self, request, *args, **kwargs):
+        if not Job.objects.filter(company__user=self.request.user, pk=self.kwargs['pk']).exists():
+            messages.error(request, 'You are not authorized to view this page.')
+            return redirect('company:job-list')
+        return super(CandidateListView, self).dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
         return Candidate.objects.filter(job=self.kwargs['pk']).exclude(status='rej')
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateListView, self).get_context_data(**kwargs)
+        context['job'] = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=self.kwargs['pk'])
+        return context
 
 
 @method_decorator(company_required, name='dispatch')
@@ -158,18 +171,3 @@ class CandidateStatusDelete(View):
         else:
             messages.error(request, "Give Reason For your Rejection")
             return redirect("company:candidate-detail", job, pk)
-
-
-@method_decorator(company_required, name='dispatch')
-class JobStatusUpdate(View):
-
-    def get(self, request, pk, *args, **kwargs):
-        job = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=pk)
-
-        if job.status == 'o':
-            job.status = 'c'
-        else:
-            job.status = 'o'
-        job.save()
-        messages.success(request, 'Job Status changed successfully.')
-        return redirect("company:job-list")

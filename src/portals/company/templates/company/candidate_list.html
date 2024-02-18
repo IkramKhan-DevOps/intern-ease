@@ -10,7 +10,12 @@
 
     <div class="row mb-2">
         <div class="col-lg-12">
-            <h4>Candidates</h4>
+            <a href="{% url 'company:job-list' %}">
+                <h5 class="mb-0 text-primary">
+                    <i class="mdi mdi-arrow-left mr-1"></i> {{ job.title }}
+                </h5>
+            </a>
+            <h4>Candidates preview</h4>
             <hr>
 
             <div class="table-responsive">
@@ -71,13 +76,10 @@
 
                     </tbody>
                 </table>
-                <div class="col-sm-6">
-                    <a href="{% url 'company:job-list' %}"
-                       class="btn text-muted d-none d-sm-inline-block btn-link">
-                        <i class="mdi mdi-arrow-left mr-1"></i> Back to internship </a>
-                </div>
             </div>
+
         </div>
+
     </div>
 
 {% endblock %}

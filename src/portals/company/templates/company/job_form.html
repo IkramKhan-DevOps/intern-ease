@@ -11,38 +11,21 @@
             <div class="row justify-content-center">
 
                 {# RIGHT #}
-                <div class="col-xl-10 col-sm-9">
+                <div class="col-sm-8">
                     <form action="" method="post">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="tab-content" id="v-pills-tabContent">
-                                    <div class="tab-pane fade active show" id="v-pills-payment" role="tabpanel"
-                                         aria-labelledby="v-pills-payment-tab">
-                                        <div>
-                                            <h4 class="card-title">internship information</h4>
-                                            <p class="card-title-desc">Fill all information below</p>
+                            <div class="card-body border-bottom">
+                                <h4 class="card-title mb09">internship Form</h4>
+                            </div>
+                            <div class="card-body p-5">
 
-                                            <div class="p-4 border">
-                                                {% csrf_token %}
-                                                {{ form|crispy }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row my-4">
-                            <div class="col-sm-6">
-                                <a href="{% url 'company:job-list' %}"
-                                   class="btn text-muted d-none d-sm-inline-block btn-link">
-                                    <i class="mdi mdi-arrow-left mr-1"></i> My internships </a>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-right">
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="mdi mdi-check mr-1"></i> Create Now
-                                    </button>
-                                </div>
+                                {% csrf_token %}
+                                {{ form|crispy }}
+
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-check"></i> Submit
+                                </button>
+
                             </div>
                         </div>
                     </form>
@@ -53,3 +36,13 @@
     </div>
 
 {% endblock %}
+
+{% block base_external_scripts %}
+    <script>
+        $(document).ready(function () {
+            $('#id_category').addClass('form-control');
+            $('#id_status').addClass('form-control');
+        });
+    </script>
+{% endblock %}
+```
