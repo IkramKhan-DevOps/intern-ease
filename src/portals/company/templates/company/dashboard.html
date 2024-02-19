@@ -75,8 +75,7 @@
                                     <th scope="col">Title</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Created On</th>
-                                    <th scope="col">Likes</th>
-                                    <th scope="col">Candidates</th>
+                                    <th scope="col">Reviews</th>
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
@@ -102,23 +101,21 @@
                                             {% endif %}
 
                                         </td>
-                                        <td>{{ object.created_on }}</td>
+                                        <td>{{ object.created_on.date }}</td>
                                         <td>
-                                            <a href="{% url 'company:job-likes-list' object.pk %}"><b><i
-                                                    class="fa fa-thumbs-up"></i>
-                                                View ({{ object.likes.count }})</b></a>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'company:candidate-list' object.pk %}"><b><i
-                                                    class="fa fa-users"></i> View
-                                                ({{ object.candidates.count }})</b></a>
+                                            <a href="{% url 'company:review-list' object.pk %}">
+                                                <b>
+                                                    <i class="fa fa-thumbs-up"></i>
+                                                    {{ object.reviews.count }}
+                                                </b>
+                                            </a>
                                         </td>
                                         <td>
                                             <a href="{% url 'company:job-update' object.pk %}">
-                                                <b><i class="fa fa-edit"></i> </b>
+                                                <b><i class="fa fa-edit"></i></b>
                                             </a>
                                             <a href="{% url 'company:job-delete' object.pk %}" class="text-danger">
-                                                <b><i class="fa fa-trash"></i> </b>
+                                                <b><i class="fa fa-trash"></i></b>
                                             </a>
                                         </td>
                                     </tr>

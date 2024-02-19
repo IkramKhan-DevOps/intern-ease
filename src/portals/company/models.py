@@ -1,22 +1,8 @@
 from ckeditor.fields import RichTextField
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
-from src.accounts.models import User
-
-
-class Country(models.Model):
-    name = models.CharField(max_length=255)
-    short_name = models.CharField(max_length=3, null=True, blank=True, help_text="Short name of country like 'US', 'GB'")
-    phone_code = models.CharField(max_length=5, null=True, blank=True, help_text="Phone code of country like '+92', '+1'")
-    language = models.CharField(max_length=255, null=True, blank=True, help_text="Language of country like 'English', 'Urdu'")
-    currency = models.CharField(max_length=255, null=True, blank=True, help_text="Currency of country like 'USD', 'PKR'")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Countries"
-        ordering = ['name']
+from src.accounts.models import User, Country, Category, City
 
 
 class Company(models.Model):
@@ -44,23 +30,13 @@ class Company(models.Model):
     contact_email = models.CharField(max_length=255, null=True, blank=True, verbose_name='Email')
     company_address = models.TextField(null=True, blank=True, verbose_name='Address')
 
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=False)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=False)
     is_active = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
         verbose_name_plural = "Companies"
-
-    def __str__(self):
-        return self.name
-
-
-# CATEGORY
-class Category(models.Model):
-    name = models.CharField(max_length=255)
-
-    class Meta:
-        verbose_name_plural = "Categories"
 
     def __str__(self):
         return self.name
@@ -87,13 +63,14 @@ class Job(models.Model):
     detailed_description = RichTextField(null=True, blank=True)
     company = models.ForeignKey('Company', related_name='job_provider', on_delete=models.CASCADE, blank=True)
     logo = models.ImageField(upload_to='company_logo', null=True, blank=True)
-    start_time = models.DateTimeField(null=True, blank=True)
-    end_time = models.DateTimeField(null=True, blank=True)
+    start_time = models.DateTimeField(null=True, blank=False)
+    end_time = models.DateTimeField(null=True, blank=False)
     reviews = models.ManyToManyField(User, related_name='likes', through='company.Review')
     candidates = models.ManyToManyField(User, related_name='candidates', through='Candidate')
     status = models.CharField(max_length=5, choices=STATUS_CHOICE, default='open')
 
     job_type = models.CharField(max_length=50, null=True, blank=True, default='internship', choices=JOB_TYPE)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=False)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=False)
     is_active = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -106,8 +83,14 @@ class Job(models.Model):
     def __str__(self):
         return self.title
 
+    def clean(self):
+        if self.start_time and self.end_time and self.start_time >= self.end_time:
+            raise ValidationError("End date must be greater than the start date.")
+        return super().clean()
+
 
 class Review(models.Model):
+
     RATING_CHOICE = (
         ('1', '1 star'),
         ('2', '2 stars'),
@@ -118,7 +101,7 @@ class Review(models.Model):
 
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    rating = models.CharField(max_length=1, default=RATING_CHOICE[3][0])
+    rating = models.CharField(max_length=1, default=RATING_CHOICE[3][0], choices=RATING_CHOICE)
     description = models.TextField(null=True, blank=True)
 
     created_on = models.DateTimeField(auto_now_add=True)

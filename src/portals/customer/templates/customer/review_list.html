@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block base_title %}
+    Candidates
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-body border-bottom">
+                    <h4 class="mb-0">Reviews</h4>
+                </div>
+
+                <div class="card-body">
+                    {% if object_list %}
+                        ....
+                    {% else %}
+                        <p class="mb-0 text-danger">
+                            <b>No didn't applied for any internship</b>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

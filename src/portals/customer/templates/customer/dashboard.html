@@ -6,7 +6,7 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-10">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -14,66 +14,16 @@
                             <i class="fa fa-clipboard-list h1 text-dark mb-0"></i>
                         </div>
                         <div class="media-body">
-                            <p class="text-muted mb-0">Total internships</p>
+                            <p class="text-muted mb-0">Welcome Back</p>
                             <h5 class="mb-0">
-                                {{ application_all_count }}
+                                {{ request.user }}
                             </h5>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-2">
-            <div class="card mini-stats-wid">
-                <div class="card-body">
-                    <div class="media">
-                        <div class="mr-3 align-self-center">
-                            <i class="fa fa-pen h1 text-primary mb-0"></i>
-                        </div>
-                        <div class="media-body">
-                            <p class="text-muted mb-0">Applied</p>
-                            <h5 class="mb-0">
-                                {{ application_app_count }}
-                            </h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-2">
-            <div class="card mini-stats-wid">
-                <div class="card-body">
-                    <div class="media">
-                        <div class="mr-3 align-self-center">
-                            <i class="fa fa-clock h1 text-primary mb-0"></i>
-                        </div>
-                        <div class="media-body">
-                            <p class="text-muted mb-0">Short Listed</p>
-                            <h5 class="mb-0">
-                                {{ application_pen_count }}
-                            </h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-2">
-            <div class="card mini-stats-wid">
-                <div class="card-body">
-                    <div class="media">
-                        <div class="mr-3 align-self-center">
-                            <i class="fa fa-check-circle h1 text-success mb-0"></i>
-                        </div>
-                        <div class="media-body">
-                            <p class="text-muted mb-0">Accepted</p>
-                            <h5 class="mb-0">
-                                {{ application_acc_count }}
-                            </h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="col-sm-2">
             <div class="card mini-stats-wid">
                 <div class="card-body">

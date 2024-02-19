@@ -5,9 +5,9 @@ This file is used to add fake data to the database.
 
 from django.utils import timezone
 
-from src.accounts.models import User
+from src.accounts.models import User, City, Country, Category
 from src.portals.company.models import (
-    Company, Category, Job, Country
+    Company, Job
 )
 
 from faker import Faker
@@ -17,16 +17,73 @@ fake = Faker()
 def add_fake_countries():
     print()
     print("Adding fake countries")
-    for _ in range(10):
-        country = Country(
-            name=fake.country(),
-            short_name=fake.country_code(),
-            phone_code=fake.country_calling_code(),
-            language=fake.language_name(),
-            currency=fake.currency_code(),
-        )
-        country.save()
+    countries = [
+        {
+            "name": "Saudi Arabia",
+            "short_name": "SA",
+            "phone_code": "+966",
+            "language": "Arabic",
+            "currency": "SAR",
+        }
+    ]
+
+    for country_data in countries:
+        country = Country.objects.create(**country_data)
         print(f"Country: {country.name} created")
+
+    print()
+    print("__________________________________________________")
+    print()
+
+
+def add_fake_cities():
+    print()
+    print("Adding fake cities")
+    cities = [
+        "Riyadh", "Jeddah", "Mecca (Makkah)", "Medina (Madinah)", "Dammam",
+        "Khobar (Al Khobar)", "Dhahran", "Tabuk", "Abha", "Taif", "Hail",
+        "Buraidah", "Najran", "Jizan", "Khamis Mushait", "Jubail", "Yanbu",
+        "Al Qassim (Buraidah)", "Al Hofuf (Al-Ahsa)", "Jazan"
+    ]
+
+    for city_name in cities:
+        city = City.objects.create(name=city_name)
+        print(f"City: {city.name} created")
+
+    print()
+    print("__________________________________________________")
+    print()
+
+
+def add_fake_categories():
+    print()
+    print("Adding fake categories")
+    categories = [
+        "Software Development",
+        "System Administration",
+        "Cybersecurity",
+        "Data Science and Analytics",
+        "IT Support",
+        "Quality Assurance (QA) and Testing",
+        "Project Management",
+        "Database Management",
+        "Artificial Intelligence (AI) and Machine Learning (ML)",
+        "Cloud Computing",
+        "UI/UX Design",
+        "Business Analysis",
+        "Network Engineering",
+        "Technical Writing",
+        "Game Development",
+        "Computer Hardware",
+        "Mobile Development",
+        "Embedded Systems",
+        "IT Sales and Marketing",
+    ]
+
+    for category_name in categories:
+        category = Category.objects.create(name=category_name)
+        print(f"Category: {category.name} created")
+
     print()
     print("__________________________________________________")
     print()
@@ -36,7 +93,7 @@ def add_fake_users():
     def fake_company_accounts():
         print()
         print("Adding fake company accounts")
-        for r in range(10):
+        for r in range(5):
             user = User(
                 username=fake.company(),
                 email=fake.company_email(),
@@ -56,7 +113,7 @@ def add_fake_users():
     def fake_customer_accounts():
         print()
         print("Adding fake customer accounts")
-        for _ in range(10):
+        for _ in range(5):
             user = User(
                 username=fake.name(),
                 email=fake.email(),
@@ -107,20 +164,6 @@ def add_fake_companies():
     print()
 
 
-def add_fake_categories():
-    print()
-    print("Adding fake categories")
-    for _ in range(10):
-        category = Category(
-            name=fake.job(),
-        )
-        category.save()
-        print(f"Category: {category.name} created")
-    print()
-    print("__________________________________________________")
-    print()
-
-
 def add_fake_jobs():
     print()
     print("Adding fake jobs")
@@ -133,9 +176,10 @@ def add_fake_jobs():
             description=fake.paragraph(nb_sentences=10),
             detailed_description=fake.paragraph(nb_sentences=10),
             company=company,
+            city=City.objects.order_by('?').first(),
+            country=Country.objects.order_by('?').first(),
             start_time=timezone.make_aware(fake.date_time_this_decade()),
             end_time=timezone.make_aware(fake.date_time_this_decade()),
-            country=company.country,
         )
         job.save()
         print(f"Job: {job.title} created")
@@ -172,9 +216,10 @@ def main():
 
     if command_add:
         add_fake_countries()
+        add_fake_cities()
+        add_fake_categories()
         add_fake_users()
         add_fake_companies()
-        add_fake_categories()
         add_fake_jobs()
 
 

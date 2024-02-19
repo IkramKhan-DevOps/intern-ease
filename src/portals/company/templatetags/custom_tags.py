@@ -15,10 +15,24 @@ def relative_url(value, field_name, urlencode=None):
 
 
 @register.filter
-def image_or_placeholder(image, size=100):
+def image_or_placeholder(image, extras='100'):
     if image:
         return image.url
-    return f"https://via.placeholder.com/{size}"
+    return f"https://placeholder.co/{extras}"
+
+
+@register.filter
+def get_review_stars(value):
+    html = ''
+    active_stars = value
+    inactive_stars = 5 - value
+
+    for _ in range(active_stars):
+        html += '<i class="active icofont-star"></i>'
+
+    for _ in range(inactive_stars):
+        html += '<i class="icofont-star"></i>'
+    return html
 
 
 @register.filter
@@ -41,7 +55,7 @@ def alert_type_class(value):
 def check_null(value):
     if value:
         return value
-    return "-"
+    return ""
 
 
 @register.simple_tag()

@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView, TemplateView, DetailView
 from src.accounts.decorators import company_required
 from src.portals.company.bll import get_user_company_bll
-from .models import Job, Company, Candidate
+from .models import Job, Company, Candidate, Review
 
 
 # VERIFIED : TESTED
@@ -54,7 +54,7 @@ class JobListView(ListView):
 @method_decorator(company_required, name='dispatch')
 class JobCreateView(CreateView):
     model = Job
-    fields = ['title', 'category', 'vacancy', 'description']
+    fields = ['title', 'category', 'vacancy', 'description', 'city', 'start_time', 'end_time']
     success_url = reverse_lazy('company:job-list')
 
     def form_valid(self, form):
@@ -62,10 +62,11 @@ class JobCreateView(CreateView):
         return super(JobCreateView, self).form_valid(form)
 
 
+# VERIFIED : TESTED
 @method_decorator(company_required, name='dispatch')
 class JobUpdateView(UpdateView):
     model = Job
-    fields = ['title', 'category', 'vacancy', 'description', 'status']
+    fields = ['title', 'category', 'vacancy', 'description', 'city', 'start_time', 'end_time']
     success_url = reverse_lazy('company:job-list')
 
     def get_object(self, queryset=None):
@@ -76,6 +77,7 @@ class JobUpdateView(UpdateView):
         )
 
 
+# VERIFIED : TESTED
 @method_decorator(company_required, name='dispatch')
 class JobDeleteView(DeleteView):
     model = Job
@@ -89,85 +91,15 @@ class JobDeleteView(DeleteView):
         )
 
 
+# VERIFIED : TESTED
 @method_decorator(company_required, name='dispatch')
-class CandidateListView(ListView):
-
-    def dispatch(self, request, *args, **kwargs):
-        if not Job.objects.filter(company__user=self.request.user, pk=self.kwargs['pk']).exists():
-            messages.error(request, 'You are not authorized to view this page.')
-            return redirect('company:job-list')
-        return super(CandidateListView, self).dispatch(request, *args, **kwargs)
+class ReviewListView(ListView):
 
     def get_queryset(self):
-        return Candidate.objects.filter(job=self.kwargs['pk']).exclude(status='rej')
+        job = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=self.kwargs['pk'])
+        return Review.objects.filter(job=job)
 
     def get_context_data(self, **kwargs):
-        context = super(CandidateListView, self).get_context_data(**kwargs)
+        context = super(ReviewListView, self).get_context_data(**kwargs)
         context['job'] = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=self.kwargs['pk'])
         return context
-
-
-@method_decorator(company_required, name='dispatch')
-class JobLikeListView(DetailView):
-    model = Job
-
-    def get_object(self, queryset=None):
-        job = get_object_or_404(
-            Job.objects.filter(
-                company__user=self.request.user
-            ), pk=self.kwargs['pk']
-        )
-        return job
-
-    def get_context_data(self, **kwargs):
-        context = super(JobLikeListView, self).get_context_data(**kwargs)
-        context['likes'] = self.get_object().likes.all()
-        return context
-
-
-@method_decorator(company_required, name='dispatch')
-class CandidateDetailView(DetailView):
-    model = Candidate
-
-    def get_object(self, queryset=None):
-        job = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=self.kwargs['job'])
-        return get_object_or_404(Candidate.objects.filter(job=job), pk=self.kwargs['pk'])
-
-
-@method_decorator(company_required, name='dispatch')
-class CandidateStatusUpdate(View):
-
-    def get(self, request, job, pk, action, *args, **kwargs):
-        job_ = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=job)
-        candidate_ = get_object_or_404(Candidate.objects.filter(job=job_), pk=pk)
-
-        if action not in ['pen', 'app', 'acc']:
-            messages.error(request, 'Wrong request parameters')
-            return redirect('company:candidate-list', job)
-
-        candidate_.status = action
-        candidate_.save()
-        messages.success(request, 'Candidate Status changed successfully.')
-
-        return redirect("company:candidate-detail", job, pk)
-
-
-@method_decorator(company_required, name='dispatch')
-class CandidateStatusDelete(View):
-    def post(self, request, job, pk, *args, **kwargs):
-        job_ = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=job)
-        candidate_ = get_object_or_404(Candidate.objects.filter(job=job_), pk=pk)
-        message = self.request.POST.get('message')
-        if message is not None:
-            candidate_.status = 'rej'
-            candidate_.save()
-            # subject = 'Your Application Form is rejected'
-            # message = message
-            # from_email = settings.EMAIL_HOST_USER
-            # to = candidate_.user.email
-            # send_mail(subject,message,from_email,to,fail_silently=False)
-            messages.success(request, 'Candidate Application is Rejected')
-            return redirect('company:job-list')
-        else:
-            messages.error(request, "Give Reason For your Rejection")
-            return redirect("company:candidate-detail", job, pk)

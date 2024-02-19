@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User
+from .models import User, City, Category, Country
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -16,7 +16,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import (
     AdminPasswordChangeForm, UserChangeForm, UserCreationForm,
 )
-from django.contrib.auth.models import Group, User
 from django.core.exceptions import PermissionDenied
 from django.db import router, transaction
 from django.http import Http404, HttpResponseRedirect
@@ -34,6 +33,18 @@ from .models import (
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
+
+
+class CityAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name']
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'short_name', 'phone_code', 'language', 'currency']
 
 
 class UserCustomAdmin(admin.ModelAdmin):
@@ -212,9 +223,11 @@ class UserCustomAdmin(admin.ModelAdmin):
         return super().response_add(request, obj, post_url_continue)
 
 
-# CUSTOM USER
 admin.site.register(User, UserCustomAdmin)
+admin.site.register(City, CityAdmin)
+admin.site.register(Country, CountryAdmin)
+admin.site.register(Category, CategoryAdmin)
 
-admin.site.site_header = "PROJECT | Root admin access"
+admin.site.site_header = "Intern Ease | Root admin access"
 admin.site.site_title = "root access"
-admin.site.index_title = "PRO"
+admin.site.index_title = "Admin Dashboard"

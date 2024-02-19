@@ -1,0 +1,100 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block base_title %}
+    Candidates
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <a href="{% url 'company:job-list' %}">
+                <h5 class="mb-0 text-primary">
+                    <i class="mdi mdi-arrow-left mr-1"></i> {{ job.title }}
+                </h5>
+            </a>
+            <h4>Reviews preview</h4>
+            <hr>
+
+            {% if object_list %}
+                <div class="table-responsive">
+                    <table class="table project-list-table table-nowrap table-centered table-borderless">
+                        <tbody>
+
+                        {% for object in object_list %}
+
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap table-hover">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Created On</th>
+                                        <th scope="col">Reviews</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for object in object_list %}
+                                        <tr>
+                                            <td>
+                                                <p class="mb-0">
+                                                    <b><a href="#">{{ object.title }}</a></b>
+                                                </p>
+                                                <p class="mb-0 small">{{ object.category }}</p>
+                                            </td>
+                                            <td>
+
+                                                {% if object.status == 'open' %}
+                                                    <b class="text-success">
+                                                        <i class="fa fa-check-circle"></i> Open
+                                                    </b>
+                                                {% else %}
+                                                    <b class="text-danger">
+                                                        <i class="fa fa-times-circle"></i> Closed
+                                                    </b>
+                                                {% endif %}
+
+                                            </td>
+                                            <td>{{ object.created_on.date }}</td>
+                                            <td>
+                                                <a href="{% url 'company:review-list' object.pk %}">
+                                                    <b>
+                                                        <i class="fa fa-thumbs-up"></i>
+                                                        {{ object.reviews.count }}
+                                                    </b>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'company:job-update' object.pk %}">
+                                                    <b><i class="fa fa-edit"></i></b>
+                                                </a>
+                                                <a href="{% url 'company:job-delete' object.pk %}" class="text-danger">
+                                                    <b><i class="fa fa-trash"></i></b>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-danger mb-0">
+                    <b>No reviews added yet.</b>
+                </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endblock %}

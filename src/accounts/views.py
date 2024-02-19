@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
+
+from src.accounts.bll import is_account_complete
 from src.accounts.forms import UserProfileForm
 from src.portals.company.models import Company
 
@@ -11,9 +13,23 @@ from src.portals.company.models import Company
 class CrossAuthView(View):
 
     def get(self, request):
+
+        user = request.user
+
+        # SUPER USER
+        if user.is_staff:
+            return redirect("/admin/")
+
+        # NOT IDENTIFIED
         if not request.user.is_completed:
             return redirect('accounts:identification-check')
 
+        # NOT COMPLETE
+        if not is_account_complete(request.user):
+            messages.warning(request, "Please complete your profile for better recommendations")
+            return redirect("accounts:user-change")
+
+        # CUSTOMER OR COMPANY
         if request.user.is_company:
             return redirect('company:dashboard')
         else:
@@ -43,7 +59,9 @@ class IdentificationCheckView(View):
     def get(self, request):
 
         # IS USER ALREADY IDENTIFIED
-        if request.user.is_completed: return redirect('accounts:cross-auth-view')
+        if request.user.is_completed:
+            return redirect('accounts:cross-auth-view')
+
         return render(request, 'accounts/identification-check.html')
 
     def post(self, request):
