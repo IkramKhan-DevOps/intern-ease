@@ -1,4 +1,5 @@
 from ckeditor.fields import RichTextField
+from django.contrib.auth import get_user_model
 from django.db import models
 from src.accounts.models import User
 
@@ -88,7 +89,7 @@ class Job(models.Model):
     logo = models.ImageField(upload_to='company_logo', null=True, blank=True)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
-    likes = models.ManyToManyField(User, related_name='likes')
+    reviews = models.ManyToManyField(User, related_name='likes', through='company.Review')
     candidates = models.ManyToManyField(User, related_name='candidates', through='Candidate')
     status = models.CharField(max_length=5, choices=STATUS_CHOICE, default='open')
 
@@ -106,6 +107,26 @@ class Job(models.Model):
         return self.title
 
 
+class Review(models.Model):
+    RATING_CHOICE = (
+        ('1', '1 star'),
+        ('2', '2 stars'),
+        ('3', '3 stars'),
+        ('4', '4 stars'),
+        ('5', '5 stars'),
+    )
+
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    rating = models.CharField(max_length=1, default=RATING_CHOICE[3][0])
+    description = models.TextField(null=True, blank=True)
+
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.id)
+
+
 # CANDIDATE
 class Candidate(models.Model):
     STATUS_CHOICE = (
@@ -114,13 +135,14 @@ class Candidate(models.Model):
         ('app', 'Applied'),
         ('rej', 'Rejected'),
     )
-    DEGREE_CHOICES=(
+    DEGREE_CHOICES = (
         ('ssc', 'Matric'),
         ('hssc', 'F.sc'),
         ('bs', 'Bachelors'),
         ('ms', 'Master'),
         ('phd', 'Doctorate'),
     )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     degree = models.CharField(
         max_length=15,

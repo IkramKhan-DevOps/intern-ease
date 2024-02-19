@@ -9,7 +9,6 @@ from django.views.generic import (
 )
 
 from src.accounts.decorators import customer_required
-from src.accounts.models import User
 from src.portals.company.models import Candidate, Job
 
 

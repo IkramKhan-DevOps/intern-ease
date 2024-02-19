@@ -6,15 +6,15 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
                         <div class="mr-3 align-self-center">
-                            <i class="fa fa-clipboard-list h2 text-dark mb-0"></i>
+                            <i class="fa fa-clipboard-list h1 text-dark mb-0"></i>
                         </div>
                         <div class="media-body">
-                            <p class="text-muted mb-2">Total internships</p>
+                            <p class="text-muted mb-0">Total internships</p>
                             <h5 class="mb-0">
                                 {{ application_all_count }}
                             </h5>
@@ -23,15 +23,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
                         <div class="mr-3 align-self-center">
-                            <i class="fa fa-pen h2 text-primary mb-0"></i>
+                            <i class="fa fa-pen h1 text-primary mb-0"></i>
                         </div>
                         <div class="media-body">
-                            <p class="text-muted mb-2">Applied</p>
+                            <p class="text-muted mb-0">Applied</p>
                             <h5 class="mb-0">
                                 {{ application_app_count }}
                             </h5>
@@ -40,15 +40,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
                         <div class="mr-3 align-self-center">
-                            <i class="fa fa-clock h2 text-primary mb-0"></i>
+                            <i class="fa fa-clock h1 text-primary mb-0"></i>
                         </div>
                         <div class="media-body">
-                            <p class="text-muted mb-2">Shot list</p>
+                            <p class="text-muted mb-0">Short Listed</p>
                             <h5 class="mb-0">
                                 {{ application_pen_count }}
                             </h5>
@@ -57,17 +57,34 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
                         <div class="mr-3 align-self-center">
-                            <i class="fa fa-check-circle h2 text-success mb-0"></i>
+                            <i class="fa fa-check-circle h1 text-success mb-0"></i>
                         </div>
                         <div class="media-body">
-                            <p class="text-muted mb-2">Accepted</p>
+                            <p class="text-muted mb-0">Accepted</p>
                             <h5 class="mb-0">
                                 {{ application_acc_count }}
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="card mini-stats-wid">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="mr-3 align-self-center">
+                            <i class="fa fa-star h1 text-warning mb-0"></i>
+                        </div>
+                        <div class="media-body">
+                            <p class="text-muted mb-0">Reviews</p>
+                            <h5 class="mb-0">
+                                00
                             </h5>
                         </div>
                     </div>
@@ -78,71 +95,82 @@
 
     <div class="row mb-2">
         <div class="col-lg-12">
-            <h4>Applications</h4>
-            <hr>
+            <div class="card">
+                <div class="card-body border-bottom">
+                    <h4 class="mb-0">Applications</h4>
+                </div>
+                <div class="card-body">
+                    {% if object_list %}
+                    	<div class="table-responsive">
+                        <table class="table project-list-table table-nowrap table-centered table-borderless">
+                            <tbody>
 
-            <div class="table-responsive">
-                <table class="table project-list-table table-nowrap table-centered table-borderless">
-                    <tbody>
+                            {% for object in object_list %}
+                                <tr>
+                                    <td>
+                                        <b>{{ object.job.company.name }}</b>
+                                    </td>
+                                    <td>
+                                        {{ object.job.title }}
+                                    </td>
+                                    <td>
+                                        <h5 class="text-truncate font-size-14 mb-0">
+                                            {% if object.job.status == 'o' %}
+                                                <b class="text-success">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    {{ object.job.get_status_display }}
+                                                </b>
+                                            {% else %}
+                                                <b class="text-danger">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    {{ object.job.get_status_display }}
+                                                </b>
+                                            {% endif %}
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5 class="text-truncate font-size-14 mb-0">
+                                            <small>Applied On</small><br>
+                                            {{ object.created_on }}
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5 class="text-truncate font-size-14 mb-0">
+                                            <small>Application status</small><br>
+                                            {% if object.status == 'app' %}
+                                                <b class="text-secondary"><i
+                                                        class="fa fa-exclamation-circle"></i> {{ object.get_status_display }}
+                                                </b>
+                                            {% elif object.status == 'pen' %}
+                                                <b class="text-warning"><i
+                                                        class="fa fa-clock"></i> {{ object.get_status_display }}</b>
+                                            {% else %}
+                                                <b class="text-success"><i
+                                                        class="fa fa-check-circle"></i> {{ object.get_status_display }}
+                                                </b>
+                                            {% endif %}
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'customer:application-update' object.pk %}"
+                                           class="text-primary">
+                                            <b>
+                                                <i class="fa fa-link"></i> View
+                                            </b>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
 
-                    {% for object in object_list %}
-                        <tr>
-                            <td>
-                                <b>{{ object.job.company.name }}</b>
-                            </td>
-                            <td>
-                                {{ object.job.title }}
-                            </td>
-                            <td>
-                                <h5 class="text-truncate font-size-14 mb-0">
-                                    {% if object.job.status == 'o' %}
-                                        <b class="text-success">
-                                            <i class="fa fa-check-circle"></i>
-                                            {{ object.job.get_status_display }}
-                                        </b>
-                                    {% else %}
-                                        <b class="text-danger">
-                                            <i class="fa fa-check-circle"></i>
-                                            {{ object.job.get_status_display }}
-                                        </b>
-                                    {% endif %}
-                                </h5>
-                            </td>
-                            <td>
-                                <h5 class="text-truncate font-size-14 mb-0">
-                                    <small>Applied On</small><br>
-                                    {{ object.created_on }}
-                                </h5>
-                            </td>
-                            <td>
-                                <h5 class="text-truncate font-size-14 mb-0">
-                                    <small>Application status</small><br>
-                                    {% if object.status == 'app' %}
-                                        <b class="text-secondary"><i
-                                                class="fa fa-exclamation-circle"></i> {{ object.get_status_display }}
-                                        </b>
-                                    {% elif object.status == 'pen' %}
-                                        <b class="text-warning"><i
-                                                class="fa fa-clock"></i> {{ object.get_status_display }}</b>
-                                    {% else %}
-                                        <b class="text-success"><i
-                                                class="fa fa-check-circle"></i> {{ object.get_status_display }}</b>
-                                    {% endif %}
-                                </h5>
-                            </td>
-                            <td>
-                                <a href="{% url 'customer:application-update' object.pk %}"
-                                   class="text-primary">
-                                    <b>
-                                        <i class="fa fa-link"></i> View
-                                    </b>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                        <p class="mb-0 text-danger">
+                        <b>No didn't applied for any internship</b>
+                        </p>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
