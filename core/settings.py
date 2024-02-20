@@ -59,8 +59,10 @@ INSTALLED_APPS = [
     # USER_APPLICATIONS
     'src.accounts',
     'src.website.apps.WebsiteConfig',
-    'src.portals.company',
+    'src.portals.company.apps.CompanyAppConfig',
     'src.portals.customer',
+
+    'notifications',
 
 ]
 

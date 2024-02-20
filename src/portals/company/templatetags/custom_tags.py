@@ -24,14 +24,16 @@ def image_or_placeholder(image, extras='100'):
 @register.filter
 def get_review_stars(value):
     html = ''
+    value = int(value)
     active_stars = value
     inactive_stars = 5 - value
 
     for _ in range(active_stars):
-        html += '<i class="active icofont-star"></i>'
+        html += '<i class="fa fa-star text-warning"></i>'
 
     for _ in range(inactive_stars):
-        html += '<i class="icofont-star"></i>'
+        html += '<i class="fa fa-star text-secondary"></i>'
+
     return html
 
 

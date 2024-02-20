@@ -17,10 +17,11 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
         jobs = Job.objects.filter(company__user=self.request.user)
-        context['jobs'] = jobs
+
+        context['jobs'] = jobs[:10]
         context['jobs_all_count'] = jobs.count()
-        context['jobs_open_count'] = jobs.filter(status='o').count()
-        context['jobs_close_count'] = jobs.filter(status='c').count()
+        context['jobs_open_count'] = jobs.filter(status='open').count()
+        context['jobs_close_count'] = jobs.filter(status='close').count()
         return context
 
 
@@ -54,7 +55,7 @@ class JobListView(ListView):
 @method_decorator(company_required, name='dispatch')
 class JobCreateView(CreateView):
     model = Job
-    fields = ['title', 'category', 'vacancy', 'description', 'city', 'start_time', 'end_time']
+    fields = ['title', 'category', 'vacancy', 'description', 'city', 'country', 'start_time', 'end_time']
     success_url = reverse_lazy('company:job-list')
 
     def form_valid(self, form):
@@ -66,7 +67,7 @@ class JobCreateView(CreateView):
 @method_decorator(company_required, name='dispatch')
 class JobUpdateView(UpdateView):
     model = Job
-    fields = ['title', 'category', 'vacancy', 'description', 'city', 'start_time', 'end_time']
+    fields = ['title', 'category', 'vacancy', 'description', 'city', 'country', 'start_time', 'end_time']
     success_url = reverse_lazy('company:job-list')
 
     def get_object(self, queryset=None):

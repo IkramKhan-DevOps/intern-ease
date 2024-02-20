@@ -1,5 +1,8 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load custom_tags %}
+
+
 {% block base_title %} {{ request.user }} {% endblock %}
 {% block base_links %}{% endblock %}
 
@@ -34,7 +37,7 @@
                         <div class="media-body">
                             <p class="text-muted mb-0">Reviews</p>
                             <h5 class="mb-0">
-                                00
+                                {{ review_count }}
                             </h5>
                         </div>
                     </div>
@@ -43,85 +46,114 @@
         </div>
     </div>
 
-    <div class="row mb-2">
-        <div class="col-lg-12">
+    <div class="row">
+        <div class="col-12">
             <div class="card">
-                <div class="card-body border-bottom">
-                    <h4 class="mb-0">Applications</h4>
+                <div class="border-bottom card-body">
+                    <p class="card-title mb-0">Recommended For You</p>
                 </div>
-                <div class="card-body">
-                    {% if object_list %}
-                    	<div class="table-responsive">
-                        <table class="table project-list-table table-nowrap table-centered table-borderless">
-                            <tbody>
+                <div class="card-body p-0">
+                    {% if jobs %}
 
-                            {% for object in object_list %}
+                        <div class="table-responsive">
+                            <table class="table table-centered table-nowrap table-hover">
+                                <thead class="thead-light">
                                 <tr>
-                                    <td>
-                                        <b>{{ object.job.company.name }}</b>
-                                    </td>
-                                    <td>
-                                        {{ object.job.title }}
-                                    </td>
-                                    <td>
-                                        <h5 class="text-truncate font-size-14 mb-0">
-                                            {% if object.job.status == 'o' %}
+                                    {% if not request.user.is_company %}
+                                        <th scope="col"></th>
+                                        <th scope="col">Company</th>
+                                    {% endif %}
+                                    <th scope="col">Title<br>Description</th>
+                                    <th scope="col">Type <br> Category</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">
+                                        Start Date <br>
+                                        Deadline
+                                    </th>
+                                    <th scope="col">Reviews</th>
+                                    <th scope="col">Vacancies<br>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for object in jobs %}
+                                    <tr>
+                                        {% if not request.user.is_company %}
+                                            <td>
+                                                <img src="https://placehold.co/100" alt="{{ object.company.name }}"
+                                                     class="avatar-sm rounded-circle">
+                                            </td>
+                                            <td>
+                                                <p class="mb-0">
+                                                    <b><a href="#">{{ object.company.name }}</a></b>
+                                                </p>
+                                                <p class="mb-0 small"><i
+                                                        class="fa fa-location-arrow"></i> {{ object.company.city|check_null }} {{ object.company.country }}
+                                                </p>
+                                            </td>
+                                        {% endif %}
+                                        <td>
+                                            <p class="mb-0">
+                                                <b><a href="#">{{ object.title }}</a></b>
+                                            </p>
+                                            <p class="mb-0 small">{{ object.description|truncatechars:60 }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0">
+                                                <b>{{ object.job_type }}</b>
+                                            </p>
+                                            <p class="mb-0 small">{{ object.category }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0">
+                                                <b>{{ object.city }}</b>
+                                            </p>
+                                            <p class="mb-0 small">{{ object.country }}</p>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-clock"></i> {{ object.start_time.date }} <br>
+                                            <i class="fa fa-clock text-danger"></i> {{ object.end_time.date }}
+                                        </td>
+                                        <td>
+                                            <a href="
+
+                                                    {% if request.user.is_company %}{% url 'company:review-list' object.pk %}{% else %}{% url 'customer:review-list' object.pk %}{% endif %}"
+                                               class="text-secondary">
+                                                <b class="h5">
+                                                    <i class="fa fa-star text-warning"></i>
+                                                    {{ object.average_rating }} ({{ object.reviews.count }})
+                                                </b>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <b><i class="fa fa-chair"></i> {{ object.vacancy }}</b><br>
+
+                                            {% if object.status == 'open' %}
                                                 <b class="text-success">
-                                                    <i class="fa fa-check-circle"></i>
-                                                    {{ object.job.get_status_display }}
+                                                    <i class="fa fa-check-circle"></i> Open
                                                 </b>
                                             {% else %}
                                                 <b class="text-danger">
-                                                    <i class="fa fa-check-circle"></i>
-                                                    {{ object.job.get_status_display }}
+                                                    <i class="fa fa-times-circle"></i> Closed
                                                 </b>
                                             {% endif %}
-                                        </h5>
-                                    </td>
-                                    <td>
-                                        <h5 class="text-truncate font-size-14 mb-0">
-                                            <small>Applied On</small><br>
-                                            {{ object.created_on }}
-                                        </h5>
-                                    </td>
-                                    <td>
-                                        <h5 class="text-truncate font-size-14 mb-0">
-                                            <small>Application status</small><br>
-                                            {% if object.status == 'app' %}
-                                                <b class="text-secondary"><i
-                                                        class="fa fa-exclamation-circle"></i> {{ object.get_status_display }}
-                                                </b>
-                                            {% elif object.status == 'pen' %}
-                                                <b class="text-warning"><i
-                                                        class="fa fa-clock"></i> {{ object.get_status_display }}</b>
-                                            {% else %}
-                                                <b class="text-success"><i
-                                                        class="fa fa-check-circle"></i> {{ object.get_status_display }}
-                                                </b>
-                                            {% endif %}
-                                        </h5>
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'customer:application-update' object.pk %}"
-                                           class="text-primary">
-                                            <b>
-                                                <i class="fa fa-link"></i> View
-                                            </b>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
 
-                            </tbody>
-                        </table>
-                    </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+
                     {% else %}
-                        <p class="mb-0 text-danger">
-                        <b>No didn't applied for any internship</b>
+                        <p class="text-danger p-4">
+                            <b><i class="fa fa-exclamation-circle"></i> No internships found.</b>
                         </p>
                     {% endif %}
+
                 </div>
             </div>
+
         </div>
     </div>
 

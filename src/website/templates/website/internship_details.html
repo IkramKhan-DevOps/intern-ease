@@ -112,8 +112,8 @@
                                     </svg>
 
                                     <div class="ms-4">
-                                        <p class="font-medium">Apply Candidate:</p>
-                                        <span class="text-emerald-600 font-medium text-sm">{{ object.candidates.count }}</span>
+                                        <p class="font-medium">Reviews</p>
+                                        <span class="text-emerald-600 font-medium text-sm">{{ object.average_rating }} ({{ object.reviews.count }})</span>
                                     </div>
                                 </li>
 
@@ -149,6 +149,58 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="container mt-16">
+            <div class="row">
+                {% if reviews %}
+                	{% for object_ in reviews%}
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="display: block;margin: auto;">
+                                    <img src="{{ object_.user.profile_image|image_or_placeholder:"100" }}"
+                                         class="avatar-md rounded-circle mx-auto d-block" alt="...">
+                                </div>
+                                <div class="text-center mb-3">
+                                    <h6 class="font-size-15 mt-3 mb-1">{{ object_.user }}</h6>
+                                    <p class="mb-0 text-muted">
+                                        <a href="mailto:{{ object_.email }}">{{ object_.user.email }}</a>
+                                    </p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-muted">
+                                        <b>{{ object_.description }}</b>
+                                    </p>
+                                </div>
+                                <div class="text-center h4">
+                                    {{ object_.rating|get_review_stars|safe }}
+                                </div>
+
+                            </div>
+                            <div class="card-body border-top">
+                                <div class="row">
+                                    <div class="col-12 text-left">
+                                        <i class="bx bx-calendar align-middle text-primary"></i> {{ object_.created_on }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                {% else %}
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">No Reviews Found</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
         </div>
 
         <div class="container lg:mt-24 mt-16">

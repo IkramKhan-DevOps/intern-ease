@@ -2,6 +2,8 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Avg
+
 from src.accounts.models import User, Country, Category, City
 
 
@@ -87,6 +89,15 @@ class Job(models.Model):
         if self.start_time and self.end_time and self.start_time >= self.end_time:
             raise ValidationError("End date must be greater than the start date.")
         return super().clean()
+
+    def average_rating(self):
+        reviews = Review.objects.filter(job=self)
+        if reviews:
+            rating_map = {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5}
+
+            ratings = [rating_map[review.rating] for review in reviews]
+            return sum(ratings) / len(ratings)
+        return 0
 
 
 class Review(models.Model):

@@ -1,7 +1,7 @@
 {% load static %}
 {% load static %}
 {% load custom_tags %}
-{#{% load notifications_tags %}#}
+{% load notifications_tags %}
 
 {# MAIN HEADER ------------------------------------------------------------------------------------------------------ #}
 <header id="page-topbar">
@@ -55,8 +55,7 @@
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="bx bx-bell bx-tada"></i>
                     <span class="badge badge-danger badge-pill">
-                        1
-{#{% live_notify_badge %}#}
+                        {% live_notify_badge %}
                     </span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
@@ -76,7 +75,7 @@
 
                         </div>
                         <div class="p-2 border-top text-center">
-                            <button class="btn text-primary small">
+                            <button class="btn text-primary small" onclick="unread_all_notifications()">
                                 <i class="mdi mdi-arrow-right-circle mr-1"></i> Mark All as Read
                             </button>
                         </div>
@@ -92,9 +91,10 @@
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     {% if request.user.profile_image %}
-                        <img class="rounded-circle header-profile-user" src="{% static 'images/user.png' %}" alt="Header Avatar">
+                        <img class="rounded-circle header-profile-user" src="{% static 'images/user.png' %}"
+                             alt="Header Avatar">
                     {% else %}
-                         <img class="rounded-circle header-profile-user" src="{% static 'images/user.png' %}">
+                        <img class="rounded-circle header-profile-user" src="{% static 'images/user.png' %}">
                     {% endif %}
 
 

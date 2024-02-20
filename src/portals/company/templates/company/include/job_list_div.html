@@ -1,0 +1,107 @@
+{% load static %}
+{% load custom_tags %}
+
+<div class="table-responsive">
+    <table class="table table-centered table-nowrap table-hover">
+        <thead class="thead-light">
+        <tr>
+            {% if not request.user.is_company %}
+                <th scope="col"></th>
+                <th scope="col">Company</th>
+            {% endif %}
+            <th scope="col">Title<br>Description</th>
+            <th scope="col">Type <br> Category</th>
+            <th scope="col">Location</th>
+            <th scope="col">
+                Start Date <br>
+                Deadline
+            </th>
+            <th scope="col">Reviews</th>
+            <th scope="col">Vacancies<br>Status</th>
+            <th scope="col">-</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                {% if not request.user.is_company %}
+                    <td>
+                        <img src="https://placehold.co/100" alt="{{ object.company.name }}"
+                             class="avatar-sm rounded-circle">
+                    </td>
+                    <td>
+                        <p class="mb-0">
+                            <b><a href="#">{{ object.company.name }}</a></b>
+                        </p>
+                        <p class="mb-0 small"><i
+                                class="fa fa-location-arrow"></i> {{ object.company.city|check_null }} {{ object.company.country }}
+                        </p>
+                    </td>
+                {% endif %}
+                <td>
+                    <p class="mb-0">
+                        <b><a href="#">{{ object.title }}</a></b>
+                    </p>
+                    <p class="mb-0 small">{{ object.description|truncatechars:60 }}</p>
+                </td>
+                <td>
+                    <p class="mb-0">
+                        <b>{{ object.job_type }}</b>
+                    </p>
+                    <p class="mb-0 small">{{ object.category }}</p>
+                </td>
+                <td>
+                    <p class="mb-0">
+                        <b>{{ object.city }}</b>
+                    </p>
+                    <p class="mb-0 small">{{ object.country }}</p>
+                </td>
+                <td>
+                    <i class="fa fa-clock"></i> {{ object.start_time.date }} <br>
+                    <i class="fa fa-clock text-danger"></i> {{ object.end_time.date }}
+                </td>
+                <td>
+                    <a href="
+
+                            {% if request.user.is_company %}{% url 'company:review-list' object.pk %}{% else %}{% url 'customer:review-list' object.pk %}{% endif %}"
+                       class="text-secondary">
+                        <b class="h5">
+                            <i class="fa fa-star text-warning"></i>
+                            {{ object.average_rating }} ({{ object.reviews.count }})
+                        </b>
+                    </a>
+                </td>
+                <td>
+                    <b><i class="fa fa-chair"></i> {{ object.vacancy }}</b><br>
+
+                    {% if object.status == 'open' %}
+                        <b class="text-success">
+                            <i class="fa fa-check-circle"></i> Open
+                        </b>
+                    {% else %}
+                        <b class="text-danger">
+                            <i class="fa fa-times-circle"></i> Closed
+                        </b>
+                    {% endif %}
+
+                </td>
+                <td>
+                    {% if request.user.is_company %}
+                        <a href="{% url 'company:job-update' object.pk %}">
+                            <b><i class="fa fa-edit"></i> Edit</b>
+                        </a><br>
+                        <a href="{% url 'company:job-delete' object.pk %}" class="text-danger">
+                            <b><i class="fa fa-trash"></i> Remove</b>
+                        </a>
+                    {% else %}
+                        <a class="btn btn-sm btn-primary" href="{% url 'customer:review-create' object.id %}">
+                            <i class="fa fa-pen"></i> Add Review
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>

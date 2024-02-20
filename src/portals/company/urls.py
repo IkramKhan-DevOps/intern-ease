@@ -15,6 +15,6 @@ urlpatterns = [
     path('job/<int:pk>/change/', JobUpdateView.as_view(), name='job-update'),
     path('job/<int:pk>/delete/', JobDeleteView.as_view(), name='job-delete'),
 
-    path('job/<int:pk>/reviews/', ReviewListView.as_view(), name='review-list'),
+    path('job/<int:pk>/review/', ReviewListView.as_view(), name='review-list'),
 
 ]

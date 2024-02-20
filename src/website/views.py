@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView
 
-from src.portals.company.models import Job, Company
+from src.portals.company.models import Job, Company, Review
 from src.website.filters import CompanyFilter, InternshipFilter
 from src.website.forms import ContactForm
 
@@ -70,6 +70,7 @@ class InternshipDetailsView(DetailView):
         # Add additional context data for displaying related internships
         context = super().get_context_data()
         context['internships'] = Job.objects.filter(status='o', company=self.object.company)[:3]
+        context['reviews'] = Review.objects.filter(job=self.object)
         return context
 
 
