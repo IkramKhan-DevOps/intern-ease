@@ -37,32 +37,58 @@ Internease a web based application to facilitate students to get interships and 
 4. [ ]  Email Alerts
 5. [ ]  Internship Management
 6. [ ]  Organization Management
-7. [ ]  Student Management
+7. [ ]  Staff Management
 
 ----
-# COMMAND AND CONTROL
+# NEW TO PYTHON AND DJANGO
+## Configurations
+### Installations (step 1)
+Make sure to install python first and then run the following commands.<br>
+https://www.python.org/downloads/release/python-3100/
 
-## How to run locally
-
+once installations are done make sure to check these commands on terminal or command prompt.<br>
 ```shell
-pip install -r requirements.txt
-python manage.py runserver
+python --version
+pip --version
+```
+If you see the version of python and pip then you are good to go.
+
+### Virtual Environment (step 2)
+first install virtual environment using pip
+```shell
+pip install virtualenv
+```
+---
+
+## How to run the project (First Time)
+Unzip your project and navigate to the project folder and run the following commands <br>
+(make sure you are in project directory) before running these commands.
+
+### Step1 (create and activate virtual environment)
+```shell
+virtualenv venv
+venv\Scripts\activate
 ```
 
-## How to migrate
-
+### Step2 (install requirements and migrate database)
 ```shell
+pip install -r requirements.txt
 python manage.py makemigrations accounts company website
 python manage.py migrate
 ```
+
+## Step3 (run the server)
+```shell
+python manage.py runserver
+```
 ----
 
-## HOW TO CREATE SUPERUSER
-
+## How to run the project later
+(make sure you are in project directory) before running these commands.
 ```shell
-py manage.py createsuperuser
+venv\Scripts\activate
+python manage.py runserver
 ```
-
 
 # SUMMARY
 <h4>ALERT !</h4>
