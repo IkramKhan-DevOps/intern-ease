@@ -1,8 +1,6 @@
-from ckeditor.fields import RichTextField
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Avg
 
 from src.accounts.models import User, Country, Category, City
 
@@ -62,7 +60,7 @@ class Job(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     vacancy = models.IntegerField(default=0)
     description = models.TextField()
-    detailed_description = RichTextField(null=True, blank=True)
+    detailed_description = models.TextField(null=True, blank=True)
     company = models.ForeignKey('Company', related_name='job_provider', on_delete=models.CASCADE, blank=True)
     logo = models.ImageField(upload_to='company_logo', null=True, blank=True)
     start_time = models.DateTimeField(null=True, blank=False)

@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     # REQUIRED_APPLICATIONS
     'crispy_forms',
     "crispy_bootstrap5",
-    'ckeditor',
 
     # AUTH_API
     'django.contrib.sites',
