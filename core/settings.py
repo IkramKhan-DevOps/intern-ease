@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'src.website.apps.WebsiteConfig',
     'src.portals.company.apps.CompanyAppConfig',
     'src.portals.customer',
-
     'notifications',
 
 ]
